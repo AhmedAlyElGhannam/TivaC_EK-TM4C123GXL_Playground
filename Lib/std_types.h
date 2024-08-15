@@ -36,4 +36,6 @@ enum FeatureState
 	ENABLED = 1
 };
 
+#define NULL ((void*)0)
+
 #endif
