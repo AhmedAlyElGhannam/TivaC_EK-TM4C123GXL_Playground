@@ -120,8 +120,8 @@
 		bit31:bit8 -> reserved 	(RO) 
 		bit7:bit0  -> IEV 		(RW) (0x00 Upon Reset)
 	@Value:
-		Writing 1 -> Corresponding Pin Triggers an Interrupt on Falling-Edge OR Low-Level
-		Writing 0 -> Corresponding Pin Triggers an Interrupt on Rising-Edge OR High-Level
+		Writing 1 -> Corresponding Pin Triggers an Interrupt on Rising-Edge OR High-Level
+		Writing 0 -> Corresponding Pin Triggers an Interrupt on Falling-Edge OR Low-Level
 		
 */
 #define GPIO_IEV_OFFSET			((volatile uint32_t*)0x40C)
@@ -209,7 +209,7 @@
 #define GPIOICR_R_PORTF			(*(GPIO_PORTF_BASE + GPIO_ICR_OFFSET))
 
 /**
-	@Name: GPIO Interrupt Clear Register
+	@Name: GPIO Alternate Function Select Register
 	@Layout:
 		bit31:bit8 -> reserved 	(RO) 
 		bit7:bit0  -> AFSEL 	(RW) 

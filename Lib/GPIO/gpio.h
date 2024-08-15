@@ -77,10 +77,9 @@ enum GPIO_InterruptSense
 {
 	RISING_EDGE,
 	FALLING_EDGE,
+	BOTH_EDGES,
 	HIGH_LEVEL,
-	LOW_LEVEL,
-	LOW_LEVEL_FALLING_EDGE,
-	HIGH_LEVEL_RISING_EDGE
+	LOW_LEVEL
 };
 
 enum GPIO_InterruptState
@@ -89,7 +88,11 @@ enum GPIO_InterruptState
 	NOT_MASKED
 };
 
+/*---------------------------------------------*/
+
 typedef void(*GPIO_INTERRUPT_CALLBACK_FUNC)(void); // pointer to ISR
+
+/*---------------------------------------------*/
 
 // struct for gpio pad config
 struct GPIO_pad_config
@@ -106,7 +109,7 @@ struct GPIO_pad_config
 struct GPIO_interrupt_config
 {
 	uint8_t sense_trig; // edge-triggered (rising/falling) || level-triggered (high/low)
-	uint8_t state; // masked || not masked
+	uint8_t mask_state; // masked || not masked
 };
 
 // struct for gpio pin
@@ -118,44 +121,7 @@ struct GPIO_pin
 	uint8_t pin_index; // index for pin
 };
 
-// struct for gpio port 
-/*struct GPIO_port
-{
-	struct GPIO_pin* pin_arr[8]; // array of pointers to pins
-	
-	uint8_t port; // index for this port 
-	uint32_t lock; // lock state for this port
-};*/
-
 /*---------------------------------------------*/
-
-
-// gpio_port_init
-// gpio_pin_init
-// gpio_port_read
-// gpio_pin_read
-// gpio_port write
-// gpio_pin_write
-// gpio_port_data_direction
-// gpio_pin_data_direction
-
-// gpio_pin_current_drive_select
-// gpio_pin_resistor_configuration
-	// gpio_pin_configure_pullup_res
-	// gpio_pin_configure_pulldown_res
-	// gpio_pin_configure_opendrain_res
-// gpio_pin_digital_enable
-// gpio_pin_analog_mode_select
-// gpio_pin_configure_alternate_function
-// gpio_port_config_lock
-
-// gpio_pin_interrupt_init
-// gpio_pin_set_ISR
-
-// gpio_pin_set_interrupt_sense_event
-// gpio_pin_set_interrupt_mask
-// gpio_pin_is_interrupt_raised
-// gpio_pin_clear_interrupt
 
 sint8_t GPIO_set_pin_ISR(struct GPIO_pin* _pin, GPIO_INTERRUPT_CALLBACK_FUNC _isr);
 sint8_t GPIO_pin_config_lock(struct GPIO_pin* _pin, uint32_t _lock);
@@ -166,6 +132,14 @@ sint8_t GPIO_pin_resistor_config(struct GPIO_pin* _pin, uint8_t _config);
 sint8_t GPIO_pin_drive_current_config(struct GPIO_pin* _pin, uint8_t _config);
 sint8_t GPIO_pin_slew_rate_config(struct GPIO_pin* _pin, uint8_t _config);
 sint8_t GPIO_pin_pad_config(struct GPIO_pin* _pin);
+sint8_t GPIO_pin_interrupt_sense_trig_config(struct GPIO_pin* _pin, uint8_t _config);
+sint8_t GPIO_pin_interrupt_mask_config(struct GPIO_pin* _pin, uint8_t _config);
+sint8_t GPIO_pin_interrupt_config(struct GPIO_pin* _pin);
 sint8_t GPIO_pin_init(struct GPIO_pin* _pin, uint8_t _port_index, uint8_t _pin_index);
+sint16_t GPIO_pin_digital_read(struct GPIO_pin* _pin);
+sint8_t GPIO_pin_digital_write(struct GPIO_pin* _pin, uint8_t _data);
+bool GPIO_pin_is_interrupt_raised(struct GPIO_pin* _pin);
+void GPIO_pin_clear_pin_interrupt(struct GPIO_pin* _pin);
+
 
 #endif
