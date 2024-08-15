@@ -32,7 +32,7 @@ enum GPIO_PortPadConfigLock
 
 enum GPIO_PinIndex
 {
-    PIN0 = 0,
+	PIN0 = 0,
     PIN1 = 1,
     PIN2 = 2,
     PIN3 = 3,
@@ -87,19 +87,19 @@ typedef void(*GPIO_INTERRUPT_CALLBACK_FUNC)(void);
 // struct for gpio pad config
 struct GPIO_pad_config
 {
-	enum FeatureState AFSEL; 	// alternate function select
-	enum DataDirection DIR; 	// data direction
-	enum FeatureState DEN; 		// digital enable
-	enum GPIO_ResistorType RES; 		// pull-up || pull-down || open-drain
-	enum GPIO_CurrentDrive DRX; 		// 2mA || 4mA || 8mA current drive 
-	enum FeatureState SLR;		// slew rate (only for 8mA current drive)
+	uint8_t AFSEL; 	// alternate function select
+	uint8_t DIR; 	// data direction
+	uint8_t DEN; 	// digital enable
+	uint8_t RES; 	// pull-up || pull-down || open-drain
+	uint8_t DRX; 	// 2mA || 4mA || 8mA current drive 
+	uint8_t SLR;	// slew rate (only for 8mA current drive)
 };
 
 // struct for gpio interrupt config
 struct GPIO_interrupt_config
 {
-	enum GPIO_InterruptSense sense_trig; // edge-triggered (rising/falling) || level-triggered (high/low)
-	enum GPIO_InterruptState state; // masked || not masked
+	uint8_t sense_trig; // edge-triggered (rising/falling) || level-triggered (high/low)
+	uint8_t state; // masked || not masked
 	GPIO_INTERRUPT_CALLBACK_FUNC callback_func; // callback function
 };
 
@@ -108,15 +108,15 @@ struct GPIO_pin
 {
 	struct GPIO_pad_config* pad_config; // pointer to pad config for this pin
 	struct GPIO_interrupt_config* interrupt_config; // pointer to interrupt config for this pin
-	enum GPIO_PortIndex port; // index for port this pin belongs to
-	enum GPIO_PinIndex pin; // index for pin
+	uint8_t port; // index for port this pin belongs to
+	uint8_t pin; // index for pin
 };
 
 // struct for gpio port 
 struct GPIO_port
 {
 	struct GPIO_pin* pins[8]; // array of pointers to pins
-	enum GPIO_PortPadConfigLock lock; // lock state for this port
+	uint32_t lock; // lock state for this port
 };
 
 #endif

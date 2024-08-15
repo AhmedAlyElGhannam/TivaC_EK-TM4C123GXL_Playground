@@ -48,7 +48,13 @@
 		bit7:bit0  -> DATA 		(RW) (0x00 Upon Reset)
 		
 */
-#define GPIO_DATA_OFFSET	0x00
+#define GPIO_DATA_OFFSET		((volatile uint32_t*)0x00)
+#define GPIODATA_R_PORTA		(*(GPIO_PORTA_BASE + GPIO_DATA_OFFSET))
+#define GPIODATA_R_PORTB		(*(GPIO_PORTB_BASE + GPIO_DATA_OFFSET))
+#define GPIODATA_R_PORTC		(*(GPIO_PORTC_BASE + GPIO_DATA_OFFSET))
+#define GPIODATA_R_PORTD		(*(GPIO_PORTD_BASE + GPIO_DATA_OFFSET))
+#define GPIODATA_R_PORTE		(*(GPIO_PORTE_BASE + GPIO_DATA_OFFSET))
+#define GPIODATA_R_PORTF		(*(GPIO_PORTF_BASE + GPIO_DATA_OFFSET))
 
 
 /**
@@ -61,7 +67,13 @@
 		Writing 0 -> Corresponding Pin is an Input
 		
 */
-#define GPIO_DIR_OFFSET		0x400
+#define GPIO_DIR_OFFSET			((volatile uint32_t*)0x400)
+#define GPIODIR_R_PORTA			(*(GPIO_PORTA_BASE + GPIO_DIR_OFFSET))
+#define GPIODIR_R_PORTB			(*(GPIO_PORTB_BASE + GPIO_DIR_OFFSET))
+#define GPIODIR_R_PORTC			(*(GPIO_PORTC_BASE + GPIO_DIR_OFFSET))
+#define GPIODIR_R_PORTD			(*(GPIO_PORTD_BASE + GPIO_DIR_OFFSET))
+#define GPIODIR_R_PORTE			(*(GPIO_PORTE_BASE + GPIO_DIR_OFFSET))
+#define GPIODIR_R_PORTF			(*(GPIO_PORTF_BASE + GPIO_DIR_OFFSET))
 
 
 /**
@@ -74,7 +86,13 @@
 		Writing 0 -> Corresponding Pin is Edge-Sensitive (Rising & Falling)
 		
 */
-#define GPIO_IS_OFFSET		0x404
+#define GPIO_IS_OFFSET			((volatile uint32_t*)0x404)
+#define GPIOIS_R_PORTA			(*(GPIO_PORTA_BASE + GPIO_IS_OFFSET))
+#define GPIOIS_R_PORTB			(*(GPIO_PORTB_BASE + GPIO_IS_OFFSET))
+#define GPIOIS_R_PORTC			(*(GPIO_PORTC_BASE + GPIO_IS_OFFSET))
+#define GPIOIS_R_PORTD			(*(GPIO_PORTD_BASE + GPIO_IS_OFFSET))
+#define GPIOIS_R_PORTE			(*(GPIO_PORTE_BASE + GPIO_IS_OFFSET))
+#define GPIOIS_R_PORTF			(*(GPIO_PORTF_BASE + GPIO_IS_OFFSET))
 
 
 /**
@@ -87,7 +105,13 @@
 		Writing 0 -> Interrupt Generation is Controlled by GPIOIEV Register
 		
 */
-#define GPIO_IBE_OFFSET		0x408
+#define GPIO_IBE_OFFSET			((volatile uint32_t*)0x408)
+#define GPIOIBE_R_PORTA			(*(GPIO_PORTA_BASE + GPIO_IBE_OFFSET))
+#define GPIOIBE_R_PORTB			(*(GPIO_PORTB_BASE + GPIO_IBE_OFFSET))
+#define GPIOIBE_R_PORTC			(*(GPIO_PORTC_BASE + GPIO_IBE_OFFSET))
+#define GPIOIBE_R_PORTD			(*(GPIO_PORTD_BASE + GPIO_IBE_OFFSET))
+#define GPIOIBE_R_PORTE			(*(GPIO_PORTE_BASE + GPIO_IBE_OFFSET))
+#define GPIOIBE_R_PORTF			(*(GPIO_PORTF_BASE + GPIO_IBE_OFFSET))
 
 
 /**
@@ -100,7 +124,13 @@
 		Writing 0 -> Corresponding Pin Triggers an Interrupt on Rising-Edge OR High-Level
 		
 */
-#define GPIO_IEV_OFFSET		0x40C
+#define GPIO_IEV_OFFSET			((volatile uint32_t*)0x40C)
+#define GPIOIEV_R_PORTA			(*(GPIO_PORTA_BASE + GPIO_IEV_OFFSET))
+#define GPIOIEV_R_PORTB			(*(GPIO_PORTB_BASE + GPIO_IEV_OFFSET))
+#define GPIOIEV_R_PORTC			(*(GPIO_PORTC_BASE + GPIO_IEV_OFFSET))
+#define GPIOIEV_R_PORTD			(*(GPIO_PORTD_BASE + GPIO_IEV_OFFSET))
+#define GPIOIEV_R_PORTE			(*(GPIO_PORTE_BASE + GPIO_IEV_OFFSET))
+#define GPIOIEV_R_PORTF			(*(GPIO_PORTF_BASE + GPIO_IEV_OFFSET))
 
 
 /**
@@ -113,7 +143,13 @@
 		Writing 0 -> Corresponding Pin's Interrupt is Masked (Disabled)
 		
 */
-#define GPIO_IM_OFFSET		0x410
+#define GPIO_IM_OFFSET			((volatile uint32_t*)0x410)
+#define GPIOIM_R_PORTA			(*(GPIO_PORTA_BASE + GPIO_IM_OFFSET))
+#define GPIOIM_R_PORTB			(*(GPIO_PORTB_BASE + GPIO_IM_OFFSET))
+#define GPIOIM_R_PORTC			(*(GPIO_PORTC_BASE + GPIO_IM_OFFSET))
+#define GPIOIM_R_PORTD			(*(GPIO_PORTD_BASE + GPIO_IM_OFFSET))
+#define GPIOIM_R_PORTE			(*(GPIO_PORTE_BASE + GPIO_IM_OFFSET))
+#define GPIOIM_R_PORTF			(*(GPIO_PORTF_BASE + GPIO_IM_OFFSET))
 
 
 /**
@@ -126,8 +162,14 @@
 		Reading 0 -> Corresponding Pin Did not Raise an Interrupt
 		
 */
-#define GPIO_RIS_OFFSET		0x414
-	
+#define GPIO_RIS_OFFSET			((volatile uint32_t*)0x414)
+#define GPIORIS_R_PORTA			(*(GPIO_PORTA_BASE + GPIO_RIS_OFFSET))
+#define GPIORIS_R_PORTB			(*(GPIO_PORTB_BASE + GPIO_RIS_OFFSET))
+#define GPIORIS_R_PORTC			(*(GPIO_PORTC_BASE + GPIO_RIS_OFFSET))
+#define GPIORIS_R_PORTD			(*(GPIO_PORTD_BASE + GPIO_RIS_OFFSET))
+#define GPIORIS_R_PORTE			(*(GPIO_PORTE_BASE + GPIO_RIS_OFFSET))
+#define GPIORIS_R_PORTF			(*(GPIO_PORTF_BASE + GPIO_RIS_OFFSET))	
+
 
 /**
 	@Name: GPIO Masked Interrupt Status Register
@@ -139,7 +181,13 @@
 		Reading 0 -> Corresponding Pin Has its Interrupt Masked OR Did not Raise an Interrupt
 		
 */
-#define GPIO_MIS_OFFSET		0x418
+#define GPIO_MIS_OFFSET			((volatile uint32_t*)0x418)
+#define GPIOMIS_R_PORTA			(*(GPIO_PORTA_BASE + GPIO_MIS_OFFSET))
+#define GPIOMIS_R_PORTB			(*(GPIO_PORTB_BASE + GPIO_MIS_OFFSET))
+#define GPIOMIS_R_PORTC			(*(GPIO_PORTC_BASE + GPIO_MIS_OFFSET))
+#define GPIOMIS_R_PORTD			(*(GPIO_PORTD_BASE + GPIO_MIS_OFFSET))
+#define GPIOMIS_R_PORTE			(*(GPIO_PORTE_BASE + GPIO_MIS_OFFSET))
+#define GPIOMIS_R_PORTF			(*(GPIO_PORTF_BASE + GPIO_MIS_OFFSET))
 
 
 /**
@@ -152,8 +200,13 @@
 		Writing 0 -> Corresponding Pin Interrupt is Unaffected
 		
 */
-#define GPIO_ICR_OFFSET		0x41C
-
+#define GPIO_ICR_OFFSET			((volatile uint32_t*)0x41C)
+#define GPIOICR_R_PORTA			(*(GPIO_PORTA_BASE + GPIO_ICR_OFFSET))
+#define GPIOICR_R_PORTB			(*(GPIO_PORTB_BASE + GPIO_ICR_OFFSET))
+#define GPIOICR_R_PORTC			(*(GPIO_PORTC_BASE + GPIO_ICR_OFFSET))
+#define GPIOICR_R_PORTD			(*(GPIO_PORTD_BASE + GPIO_ICR_OFFSET))
+#define GPIOICR_R_PORTE			(*(GPIO_PORTE_BASE + GPIO_ICR_OFFSET))
+#define GPIOICR_R_PORTF			(*(GPIO_PORTF_BASE + GPIO_ICR_OFFSET))
 
 /**
 	@Name: GPIO Interrupt Clear Register
@@ -164,7 +217,13 @@
 		Writing 1 -> Corresponding Pin Functions as the Designated Alternate Function
 		Writing 0 -> Corresponding Pin Functions as GPIO and is Controlled by GPIO Registers
 */
-#define GPIO_AFSEL_OFFSET		0x420
+#define GPIO_AFSEL_OFFSET			((volatile uint32_t*)0x420)
+#define GPIOAFSEL_R_PORTA			(*(GPIO_PORTA_BASE + GPIO_AFSEL_OFFSET))
+#define GPIOAFSEL_R_PORTB			(*(GPIO_PORTB_BASE + GPIO_AFSEL_OFFSET))
+#define GPIOAFSEL_R_PORTC			(*(GPIO_PORTC_BASE + GPIO_AFSEL_OFFSET))
+#define GPIOAFSEL_R_PORTD			(*(GPIO_PORTD_BASE + GPIO_AFSEL_OFFSET))
+#define GPIOAFSEL_R_PORTE			(*(GPIO_PORTE_BASE + GPIO_AFSEL_OFFSET))
+#define GPIOAFSEL_R_PORTF			(*(GPIO_PORTF_BASE + GPIO_AFSEL_OFFSET))
 
 
 /**
@@ -176,7 +235,13 @@
 		Writing 1 -> Corresponding Pin Drives 2-mA
 		Writing 0 -> Corresponding Pin has its Drive controlled by GPIODR4R OR GPIODR8R
 */
-#define GPIO_DR2R_OFFSET		0x500
+#define GPIO_DR2R_OFFSET			((volatile uint32_t*)0x500)
+#define GPIODR2R_R_PORTA			(*(GPIO_PORTA_BASE + GPIO_DR2R_OFFSET))
+#define GPIODR2R_R_PORTB			(*(GPIO_PORTB_BASE + GPIO_DR2R_OFFSET))
+#define GPIODR2R_R_PORTC			(*(GPIO_PORTC_BASE + GPIO_DR2R_OFFSET))
+#define GPIODR2R_R_PORTD			(*(GPIO_PORTD_BASE + GPIO_DR2R_OFFSET))
+#define GPIODR2R_R_PORTE			(*(GPIO_PORTE_BASE + GPIO_DR2R_OFFSET))
+#define GPIODR2R_R_PORTF			(*(GPIO_PORTF_BASE + GPIO_DR2R_OFFSET))
 
 
 /**
@@ -188,7 +253,13 @@
 		Writing 1 -> Corresponding Pin Drives 4-mA
 		Writing 0 -> Corresponding Pin has its Drive controlled by GPIODR2R OR GPIODR8R
 */
-#define GPIO_DR4R_OFFSET		0x504
+#define GPIO_DR4R_OFFSET			((volatile uint32_t*)0x504)
+#define GPIODR4R_R_PORTA			(*(GPIO_PORTA_BASE + GPIO_DR4R_OFFSET))
+#define GPIODR4R_R_PORTB			(*(GPIO_PORTB_BASE + GPIO_DR4R_OFFSET))
+#define GPIODR4R_R_PORTC			(*(GPIO_PORTC_BASE + GPIO_DR4R_OFFSET))
+#define GPIODR4R_R_PORTD			(*(GPIO_PORTD_BASE + GPIO_DR4R_OFFSET))
+#define GPIODR4R_R_PORTE			(*(GPIO_PORTE_BASE + GPIO_DR4R_OFFSET))
+#define GPIODR4R_R_PORTF			(*(GPIO_PORTF_BASE + GPIO_DR4R_OFFSET))
 
 
 /**
@@ -200,7 +271,13 @@
 		Writing 1 -> Corresponding Pin Drives 8-mA
 		Writing 0 -> Corresponding Pin has its Drive controlled by GPIODR2R OR GPIODR4R
 */
-#define GPIO_DR8R_OFFSET		0x508
+#define GPIO_DR8R_OFFSET			((volatile uint32_t*)0x508)
+#define GPIODR8R_R_PORTA			(*(GPIO_PORTA_BASE + GPIO_DR8R_OFFSET))
+#define GPIODR8R_R_PORTB			(*(GPIO_PORTB_BASE + GPIO_DR8R_OFFSET))
+#define GPIODR8R_R_PORTC			(*(GPIO_PORTC_BASE + GPIO_DR8R_OFFSET))
+#define GPIODR8R_R_PORTD			(*(GPIO_PORTD_BASE + GPIO_DR8R_OFFSET))
+#define GPIODR8R_R_PORTE			(*(GPIO_PORTE_BASE + GPIO_DR8R_OFFSET))
+#define GPIODR8R_R_PORTF			(*(GPIO_PORTF_BASE + GPIO_DR8R_OFFSET))
 
 
 /**
@@ -212,7 +289,13 @@
 		Writing 1 -> Corresponding Pin is Configured as Open Drain
 		Writing 0 -> Corresponding Pin is not Configured as Open Drain
 */
-#define GPIO_ODR_OFFSET		0x50C
+#define GPIO_ODR_OFFSET			((volatile uint32_t*)0x50C)
+#define GPIOODR_R_PORTA			(*(GPIO_PORTA_BASE + GPIO_ODR_OFFSET))
+#define GPIOODR_R_PORTB			(*(GPIO_PORTB_BASE + GPIO_ODR_OFFSET))
+#define GPIOODR_R_PORTC			(*(GPIO_PORTC_BASE + GPIO_ODR_OFFSET))
+#define GPIOODR_R_PORTD			(*(GPIO_PORTD_BASE + GPIO_ODR_OFFSET))
+#define GPIOODR_R_PORTE			(*(GPIO_PORTE_BASE + GPIO_ODR_OFFSET))
+#define GPIOODR_R_PORTF			(*(GPIO_PORTF_BASE + GPIO_ODR_OFFSET))
 
 
 /**
@@ -224,7 +307,13 @@
 		Writing 1 -> Corresponding Pin's weak Pull-Up Resistor is Enabled
 		Writing 0 -> Corresponding Pin's weak Pull-Up Resistor is Disabled
 */
-#define GPIO_PUR_OFFSET		0x510
+#define GPIO_PUR_OFFSET			((volatile uint32_t*)0x510)
+#define GPIOPUR_R_PORTA			(*(GPIO_PORTA_BASE + GPIO_PUR_OFFSET))
+#define GPIOPUR_R_PORTB			(*(GPIO_PORTB_BASE + GPIO_PUR_OFFSET))
+#define GPIOPUR_R_PORTC			(*(GPIO_PORTC_BASE + GPIO_PUR_OFFSET))
+#define GPIOPUR_R_PORTD			(*(GPIO_PORTD_BASE + GPIO_PUR_OFFSET))
+#define GPIOPUR_R_PORTE			(*(GPIO_PORTE_BASE + GPIO_PUR_OFFSET))
+#define GPIOPUR_R_PORTF			(*(GPIO_PORTF_BASE + GPIO_PUR_OFFSET))
 
 
 /**
@@ -236,7 +325,13 @@
 		Writing 1 -> Corresponding Pin's weak Pull-Down Resistor is Enabled
 		Writing 0 -> Corresponding Pin's weak Pull-Down Resistor is Disabled
 */
-#define GPIO_PDR_OFFSET		0x514
+#define GPIO_PDR_OFFSET			((volatile uint32_t*)0x514)
+#define GPIOPDR_R_PORTA			(*(GPIO_PORTA_BASE + GPIO_PDR_OFFSET))
+#define GPIOPDR_R_PORTB			(*(GPIO_PORTB_BASE + GPIO_PDR_OFFSET))
+#define GPIOPDR_R_PORTC			(*(GPIO_PORTC_BASE + GPIO_PDR_OFFSET))
+#define GPIOPDR_R_PORTD			(*(GPIO_PORTD_BASE + GPIO_PDR_OFFSET))
+#define GPIOPDR_R_PORTE			(*(GPIO_PORTE_BASE + GPIO_PDR_OFFSET))
+#define GPIOPDR_R_PORTF			(*(GPIO_PORTF_BASE + GPIO_PDR_OFFSET))
 
 
 /**
@@ -248,7 +343,13 @@
 		Writing 1 -> Corresponding Pin's Slew Rate Control is Enabled (8mA Drive ONLY)
 		Writing 0 -> Corresponding Pin's Slew Rate Control is Disabled (8mA Drive ONLY)
 */
-#define GPIO_SLR_OFFSET		0x518
+#define GPIO_SLR_OFFSET			((volatile uint32_t*)0x518)
+#define GPIOSLR_R_PORTA			(*(GPIO_PORTA_BASE + GPIO_SLR_OFFSET))
+#define GPIOSLR_R_PORTB			(*(GPIO_PORTB_BASE + GPIO_SLR_OFFSET))
+#define GPIOSLR_R_PORTC			(*(GPIO_PORTC_BASE + GPIO_SLR_OFFSET))
+#define GPIOSLR_R_PORTD			(*(GPIO_PORTD_BASE + GPIO_SLR_OFFSET))
+#define GPIOSLR_R_PORTE			(*(GPIO_PORTE_BASE + GPIO_SLR_OFFSET))
+#define GPIOSLR_R_PORTF			(*(GPIO_PORTF_BASE + GPIO_SLR_OFFSET))
 
 
 /**
@@ -260,7 +361,13 @@
 		Writing 1 -> Corresponding Pin's Digital Functions are Enabled (8mA Drive ONLY)
 		Writing 0 -> Corresponding Pin's Digital Functions are Disabled (8mA Drive ONLY)
 */
-#define GPIO_DEN_OFFSET		0x51C
+#define GPIO_DEN_OFFSET			((volatile uint32_t*)0x51C)
+#define GPIODEN_R_PORTA			(*(GPIO_PORTA_BASE + GPIO_DEN_OFFSET))
+#define GPIODEN_R_PORTB			(*(GPIO_PORTB_BASE + GPIO_DEN_OFFSET))
+#define GPIODEN_R_PORTC			(*(GPIO_PORTC_BASE + GPIO_DEN_OFFSET))
+#define GPIODEN_R_PORTD			(*(GPIO_PORTD_BASE + GPIO_DEN_OFFSET))
+#define GPIODEN_R_PORTE			(*(GPIO_PORTE_BASE + GPIO_DEN_OFFSET))
+#define GPIODEN_R_PORTF			(*(GPIO_PORTF_BASE + GPIO_DEN_OFFSET))
 
 
 /**
@@ -274,7 +381,13 @@
 			1 -> indicates GPIOCR register is locked and cannot be modified
 			0 -> indicates GPIOCR register is unlocked and can be modified
 */
-#define GPIO_LOCK_OFFSET		0x520
+#define GPIO_LOCK_OFFSET			((volatile uint32_t*)0x520)
+#define GPIOLOCK_R_PORTA			(*(GPIO_PORTA_BASE + GPIO_LOCK_OFFSET))
+#define GPIOLOCK_R_PORTB			(*(GPIO_PORTB_BASE + GPIO_LOCK_OFFSET))
+#define GPIOLOCK_R_PORTC			(*(GPIO_PORTC_BASE + GPIO_LOCK_OFFSET))
+#define GPIOLOCK_R_PORTD			(*(GPIO_PORTD_BASE + GPIO_LOCK_OFFSET))
+#define GPIOLOCK_R_PORTE			(*(GPIO_PORTE_BASE + GPIO_LOCK_OFFSET))
+#define GPIOLOCK_R_PORTF			(*(GPIO_PORTF_BASE + GPIO_LOCK_OFFSET))
 
 
 /**
@@ -286,7 +399,13 @@
 		Writing 1 -> Corresponding GPIOAFSEL, GPIOPUR, GPIOPDR, and GPIODEN bits cannot be Written
 		Writing 0 -> Corresponding GPIOAFSEL, GPIOPUR, GPIOPDR, and GPIODEN bits can be Written
 */
-#define GPIO_CR_OFFSET		0x524
+#define GPIO_CR_OFFSET			((volatile uint32_t*)0x524)
+#define GPIOCR_R_PORTA			(*(GPIO_PORTA_BASE + GPIO_CR_OFFSET))
+#define GPIOCR_R_PORTB			(*(GPIO_PORTB_BASE + GPIO_CR_OFFSET))
+#define GPIOCR_R_PORTC			(*(GPIO_PORTC_BASE + GPIO_CR_OFFSET))
+#define GPIOCR_R_PORTD			(*(GPIO_PORTD_BASE + GPIO_CR_OFFSET))
+#define GPIOCR_R_PORTE			(*(GPIO_PORTE_BASE + GPIO_CR_OFFSET))
+#define GPIOCR_R_PORTF			(*(GPIO_PORTF_BASE + GPIO_CR_OFFSET))
 
 
 /**
@@ -298,7 +417,13 @@
 		Writing 1 -> Corresponding Pin's Analog Functions are Enabled and the Isolation ?! is Disabled
 		Writing 0 -> Corresponding Pin's Analog Functions are Disabled and the Isolation ?! is Enabled
 */
-#define GPIO_AMSEL_OFFSET		0x528
+#define GPIO_AMSEL_OFFSET			((volatile uint32_t*)0x528)
+#define GPIOAMSEL_R_PORTA			(*(GPIO_PORTA_BASE + GPIO_AMSEL_OFFSET))
+#define GPIOAMSEL_R_PORTB			(*(GPIO_PORTB_BASE + GPIO_AMSEL_OFFSET))
+#define GPIOAMSEL_R_PORTC			(*(GPIO_PORTC_BASE + GPIO_AMSEL_OFFSET))
+#define GPIOAMSEL_R_PORTD			(*(GPIO_PORTD_BASE + GPIO_AMSEL_OFFSET))
+#define GPIOAMSEL_R_PORTE			(*(GPIO_PORTE_BASE + GPIO_AMSEL_OFFSET))
+#define GPIOAMSEL_R_PORTF			(*(GPIO_PORTF_BASE + GPIO_AMSEL_OFFSET))
 
 
 /**
@@ -315,7 +440,13 @@
 	@Value:
 		According to Table 10-11 in Datasheet
 */
-#define GPIO_PCTL_OFFSET		0x52C
+#define GPIO_PCTL_OFFSET			((volatile uint32_t*)0x52C)
+#define GPIOPCTL_R_PORTA			(*(GPIO_PORTA_BASE + GPIO_PCTL_OFFSET))
+#define GPIOPCTL_R_PORTB			(*(GPIO_PORTB_BASE + GPIO_PCTL_OFFSET))
+#define GPIOPCTL_R_PORTC			(*(GPIO_PORTC_BASE + GPIO_PCTL_OFFSET))
+#define GPIOPCTL_R_PORTD			(*(GPIO_PORTD_BASE + GPIO_PCTL_OFFSET))
+#define GPIOPCTL_R_PORTE			(*(GPIO_PORTE_BASE + GPIO_PCTL_OFFSET))
+#define GPIOPCTL_R_PORTF			(*(GPIO_PORTF_BASE + GPIO_PCTL_OFFSET))
 
 
 /**
@@ -327,7 +458,13 @@
 		Writing 1 -> Corresponding Pin is Used to Trigger ADC
 		Writing 0 -> Corresponding Pin is not Used to Trigger ADC
 */
-#define GPIO_ADCCTL_OFFSET		0x530
+#define GPIO_ADCCTL_OFFSET			((volatile uint32_t*)0x530)
+#define GPIOADCCTL_R_PORTA			(*(GPIO_PORTA_BASE + GPIO_ADCCTL_OFFSET))
+#define GPIOADCCTL_R_PORTB			(*(GPIO_PORTB_BASE + GPIO_ADCCTL_OFFSET))
+#define GPIOADCCTL_R_PORTC			(*(GPIO_PORTC_BASE + GPIO_ADCCTL_OFFSET))
+#define GPIOADCCTL_R_PORTD			(*(GPIO_PORTD_BASE + GPIO_ADCCTL_OFFSET))
+#define GPIOADCCTL_R_PORTE			(*(GPIO_PORTE_BASE + GPIO_ADCCTL_OFFSET))
+#define GPIOADCCTL_R_PORTF			(*(GPIO_PORTF_BASE + GPIO_ADCCTL_OFFSET))
 
 
 /**
@@ -339,7 +476,13 @@
 		Writing 1 -> Corresponding Pin is Used to Trigger uDMA
 		Writing 0 -> Corresponding Pin is not Used to Trigger uDMA
 */
-#define GPIO_DMACTL_OFFSET		0x534
+#define GPIO_DMACTL_OFFSET			((volatile uint32_t*)0x534)
+#define GPIODMACTL_R_PORTA			(*(GPIO_PORTA_BASE + GPIO_DMACTL_OFFSET))
+#define GPIODMACTL_R_PORTB			(*(GPIO_PORTB_BASE + GPIO_DMACTL_OFFSET))
+#define GPIODMACTL_R_PORTC			(*(GPIO_PORTC_BASE + GPIO_DMACTL_OFFSET))
+#define GPIODMACTL_R_PORTD			(*(GPIO_PORTD_BASE + GPIO_DMACTL_OFFSET))
+#define GPIODMACTL_R_PORTE			(*(GPIO_PORTE_BASE + GPIO_DMACTL_OFFSET))
+#define GPIODMACTL_R_PORTF			(*(GPIO_PORTF_BASE + GPIO_DMACTL_OFFSET))
 
 
 /**
@@ -350,8 +493,13 @@
 	@Function:
 		Used by Software to Identify the Peripheral
 */
-#define GPIO_PID4_OFFSET		0xFD0
-
+#define GPIO_PID4_OFFSET			((volatile uint32_t*)0xFD0)
+#define GPIOPID4_R_PORTA			(*(GPIO_PORTA_BASE + GPIO_PID4_OFFSET))
+#define GPIOPID4_R_PORTB			(*(GPIO_PORTB_BASE + GPIO_PID4_OFFSET))
+#define GPIOPID4_R_PORTC			(*(GPIO_PORTC_BASE + GPIO_PID4_OFFSET))
+#define GPIOPID4_R_PORTD			(*(GPIO_PORTD_BASE + GPIO_PID4_OFFSET))
+#define GPIOPID4_R_PORTE			(*(GPIO_PORTE_BASE + GPIO_PID4_OFFSET))
+#define GPIOPID4_R_PORTF			(*(GPIO_PORTF_BASE + GPIO_PID4_OFFSET))
 
 
 /**
@@ -362,7 +510,13 @@
 	@Function:
 		Used by Software to Identify the Peripheral
 */
-#define GPIO_PID5_OFFSET		0xFD4
+#define GPIO_PID5_OFFSET			((volatile uint32_t*)0xFD4)
+#define GPIOPID5_R_PORTA			(*(GPIO_PORTA_BASE + GPIO_PID5_OFFSET))
+#define GPIOPID5_R_PORTB			(*(GPIO_PORTB_BASE + GPIO_PID5_OFFSET))
+#define GPIOPID5_R_PORTC			(*(GPIO_PORTC_BASE + GPIO_PID5_OFFSET))
+#define GPIOPID5_R_PORTD			(*(GPIO_PORTD_BASE + GPIO_PID5_OFFSET))
+#define GPIOPID5_R_PORTE			(*(GPIO_PORTE_BASE + GPIO_PID5_OFFSET))
+#define GPIOPID5_R_PORTF			(*(GPIO_PORTF_BASE + GPIO_PID5_OFFSET))
 
 
 /**
@@ -373,7 +527,13 @@
 	@Function:
 		Used by Software to Identify the Peripheral
 */
-#define GPIO_PID6_OFFSET		0xFD8
+#define GPIO_PID6_OFFSET			((volatile uint32_t*)0xFD8)
+#define GPIOPID6_R_PORTA			(*(GPIO_PORTA_BASE + GPIO_PID6_OFFSET))
+#define GPIOPID6_R_PORTB			(*(GPIO_PORTB_BASE + GPIO_PID6_OFFSET))
+#define GPIOPID6_R_PORTC			(*(GPIO_PORTC_BASE + GPIO_PID6_OFFSET))
+#define GPIOPID6_R_PORTD			(*(GPIO_PORTD_BASE + GPIO_PID6_OFFSET))
+#define GPIOPID6_R_PORTE			(*(GPIO_PORTE_BASE + GPIO_PID6_OFFSET))
+#define GPIOPID6_R_PORTF			(*(GPIO_PORTF_BASE + GPIO_PID6_OFFSET))
 
 
 /**
@@ -384,7 +544,13 @@
 	@Function:
 		Used by Software to Identify the Peripheral
 */
-#define GPIO_PID7_OFFSET		0xFDC
+#define GPIO_PID7_OFFSET			((volatile uint32_t*)0xFDC)
+#define GPIOPID7_R_PORTA			(*(GPIO_PORTA_BASE + GPIO_PID7_OFFSET))
+#define GPIOPID7_R_PORTB			(*(GPIO_PORTB_BASE + GPIO_PID7_OFFSET))
+#define GPIOPID7_R_PORTC			(*(GPIO_PORTC_BASE + GPIO_PID7_OFFSET))
+#define GPIOPID7_R_PORTD			(*(GPIO_PORTD_BASE + GPIO_PID7_OFFSET))
+#define GPIOPID7_R_PORTE			(*(GPIO_PORTE_BASE + GPIO_PID7_OFFSET))
+#define GPIOPID7_R_PORTF			(*(GPIO_PORTF_BASE + GPIO_PID7_OFFSET))
 
 
 /**
@@ -395,7 +561,13 @@
 	@Function:
 		Used by Software to Identify the Peripheral
 */
-#define GPIO_PID0_OFFSET		0xFE0
+#define GPIO_PID0_OFFSET			((volatile uint32_t*)0xFE0)
+#define GPIOPID0_R_PORTA			(*(GPIO_PORTA_BASE + GPIO_PID0_OFFSET))
+#define GPIOPID0_R_PORTB			(*(GPIO_PORTB_BASE + GPIO_PID0_OFFSET))
+#define GPIOPID0_R_PORTC			(*(GPIO_PORTC_BASE + GPIO_PID0_OFFSET))
+#define GPIOPID0_R_PORTD			(*(GPIO_PORTD_BASE + GPIO_PID0_OFFSET))
+#define GPIOPID0_R_PORTE			(*(GPIO_PORTE_BASE + GPIO_PID0_OFFSET))
+#define GPIOPID0_R_PORTF			(*(GPIO_PORTF_BASE + GPIO_PID0_OFFSET))
 
 
 /**
@@ -406,7 +578,13 @@
 	@Function:
 		Used by Software to Identify the Peripheral
 */
-#define GPIO_PID1_OFFSET		0xFE4
+#define GPIO_PID1_OFFSET			((volatile uint32_t*)0xFE4)
+#define GPIOPID1_R_PORTA			(*(GPIO_PORTA_BASE + GPIO_PID1_OFFSET))
+#define GPIOPID1_R_PORTB			(*(GPIO_PORTB_BASE + GPIO_PID1_OFFSET))
+#define GPIOPID1_R_PORTC			(*(GPIO_PORTC_BASE + GPIO_PID1_OFFSET))
+#define GPIOPID1_R_PORTD			(*(GPIO_PORTD_BASE + GPIO_PID1_OFFSET))
+#define GPIOPID1_R_PORTE			(*(GPIO_PORTE_BASE + GPIO_PID1_OFFSET))
+#define GPIOPID1_R_PORTF			(*(GPIO_PORTF_BASE + GPIO_PID1_OFFSET))
 
 
 /**
@@ -417,7 +595,13 @@
 	@Function:
 		Used by Software to Identify the Peripheral
 */
-#define GPIO_PID2_OFFSET		0xFE8
+#define GPIO_PID2_OFFSET			((volatile uint32_t*)0xFE8)
+#define GPIOPID2_R_PORTA			(*(GPIO_PORTA_BASE + GPIO_PID2_OFFSET))
+#define GPIOPID2_R_PORTB			(*(GPIO_PORTB_BASE + GPIO_PID2_OFFSET))
+#define GPIOPID2_R_PORTC			(*(GPIO_PORTC_BASE + GPIO_PID2_OFFSET))
+#define GPIOPID2_R_PORTD			(*(GPIO_PORTD_BASE + GPIO_PID2_OFFSET))
+#define GPIOPID2_R_PORTE			(*(GPIO_PORTE_BASE + GPIO_PID2_OFFSET))
+#define GPIOPID2_R_PORTF			(*(GPIO_PORTF_BASE + GPIO_PID2_OFFSET))
 
 
 /**
@@ -428,7 +612,13 @@
 	@Function:
 		Used by Software to Identify the Peripheral
 */
-#define GPIO_PID3_OFFSET		0xFEC
+#define GPIO_PID3_OFFSET			((volatile uint32_t*)0xFEC)
+#define GPIOPID3_R_PORTA			(*(GPIO_PORTA_BASE + GPIO_PID3_OFFSET))
+#define GPIOPID3_R_PORTB			(*(GPIO_PORTB_BASE + GPIO_PID3_OFFSET))
+#define GPIOPID3_R_PORTC			(*(GPIO_PORTC_BASE + GPIO_PID3_OFFSET))
+#define GPIOPID3_R_PORTD			(*(GPIO_PORTD_BASE + GPIO_PID3_OFFSET))
+#define GPIOPID3_R_PORTE			(*(GPIO_PORTE_BASE + GPIO_PID3_OFFSET))
+#define GPIOPID3_R_PORTF			(*(GPIO_PORTF_BASE + GPIO_PID3_OFFSET))
 
 
 /**
@@ -439,7 +629,13 @@
 	@Function:
 		Provides Software a Standard Cross-Peripheral Identification System
 */
-#define GPIO_CID0_OFFSET		0xFF0
+#define GPIO_CID0_OFFSET			((volatile uint32_t*)0xFF0)
+#define GPIOCID0_R_PORTA			(*(GPIO_PORTA_BASE + GPIO_CID0_OFFSET))
+#define GPIOCID0_R_PORTB			(*(GPIO_PORTB_BASE + GPIO_CID0_OFFSET))
+#define GPIOCID0_R_PORTC			(*(GPIO_PORTC_BASE + GPIO_CID0_OFFSET))
+#define GPIOCID0_R_PORTD			(*(GPIO_PORTD_BASE + GPIO_CID0_OFFSET))
+#define GPIOCID0_R_PORTE			(*(GPIO_PORTE_BASE + GPIO_CID0_OFFSET))
+#define GPIOCID0_R_PORTF			(*(GPIO_PORTF_BASE + GPIO_CID0_OFFSET))
 
 
 /**
@@ -450,7 +646,13 @@
 	@Function:
 		Provides Software a Standard Cross-Peripheral Identification System
 */
-#define GPIO_CID1_OFFSET		0xFF4
+#define GPIO_CID1_OFFSET			((volatile uint32_t*)0xFF4)
+#define GPIOCID1_R_PORTA			(*(GPIO_PORTA_BASE + GPIO_CID1_OFFSET))
+#define GPIOCID1_R_PORTB			(*(GPIO_PORTB_BASE + GPIO_CID1_OFFSET))
+#define GPIOCID1_R_PORTC			(*(GPIO_PORTC_BASE + GPIO_CID1_OFFSET))
+#define GPIOCID1_R_PORTD			(*(GPIO_PORTD_BASE + GPIO_CID1_OFFSET))
+#define GPIOCID1_R_PORTE			(*(GPIO_PORTE_BASE + GPIO_CID1_OFFSET))
+#define GPIOCID1_R_PORTF			(*(GPIO_PORTF_BASE + GPIO_CID1_OFFSET))
 
 
 /**
@@ -461,7 +663,13 @@
 	@Function:
 		Provides Software a Standard Cross-Peripheral Identification System
 */
-#define GPIO_CID2_OFFSET		0xFF8
+#define GPIO_CID2_OFFSET			((volatile uint32_t*)0xFF8)
+#define GPIOCID2_R_PORTA			(*(GPIO_PORTA_BASE + GPIO_CID2_OFFSET))
+#define GPIOCID2_R_PORTB			(*(GPIO_PORTB_BASE + GPIO_CID2_OFFSET))
+#define GPIOCID2_R_PORTC			(*(GPIO_PORTC_BASE + GPIO_CID2_OFFSET))
+#define GPIOCID2_R_PORTD			(*(GPIO_PORTD_BASE + GPIO_CID2_OFFSET))
+#define GPIOCID2_R_PORTE			(*(GPIO_PORTE_BASE + GPIO_CID2_OFFSET))
+#define GPIOCID2_R_PORTF			(*(GPIO_PORTF_BASE + GPIO_CID2_OFFSET))
 
 
 /**
@@ -472,7 +680,13 @@
 	@Function:
 		Provides Software a Standard Cross-Peripheral Identification System
 */
-#define GPIO_CID3_OFFSET		0xFFC
+#define GPIO_CID3_OFFSET			((volatile uint32_t*)0xFFC)
+#define GPIOCID3_R_PORTA			(*(GPIO_PORTA_BASE + GPIO_CID3_OFFSET))
+#define GPIOCID3_R_PORTB			(*(GPIO_PORTB_BASE + GPIO_CID3_OFFSET))
+#define GPIOCID3_R_PORTC			(*(GPIO_PORTC_BASE + GPIO_CID3_OFFSET))
+#define GPIOCID3_R_PORTD			(*(GPIO_PORTD_BASE + GPIO_CID3_OFFSET))
+#define GPIOCID3_R_PORTE			(*(GPIO_PORTE_BASE + GPIO_CID3_OFFSET))
+#define GPIOCID3_R_PORTF			(*(GPIO_PORTF_BASE + GPIO_CID3_OFFSET))
 
 /*----------GPIO END----------*/
 
