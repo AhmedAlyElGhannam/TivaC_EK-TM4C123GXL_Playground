@@ -143,6 +143,8 @@ sint8_t GPIO_pin_AFSEL_config(struct GPIO_pin* _pin, uint8_t _config)
 		goto out;
 	}
 
+	_pin->pad_config.AFSEL = _config;
+	
 	switch (_pin->port_index)
 	{
 		case PORTA:
@@ -201,6 +203,8 @@ sint8_t GPIO_pin_direction_config(struct GPIO_pin* _pin, uint8_t _config)
 		res = -EINVARG;
 		goto out;
 	}
+	
+	_pin->pad_config.DIR = _config;
 
 	switch (_pin->port_index)
 	{
@@ -262,6 +266,8 @@ sint8_t GPIO_pin_digital_config(struct GPIO_pin* _pin, uint8_t _config)
 		goto out;
 	}
 
+	_pin->pad_config.DEN = _config;
+
 	switch (_pin->port_index)
 	{
 		case PORTA:
@@ -321,6 +327,8 @@ sint8_t GPIO_pin_resistor_config(struct GPIO_pin* _pin, uint8_t _config)
 		res = -EINVARG;
 		goto out;
 	}
+	
+	_pin->pad_config.RES = _config;
 
 	switch (_pin->port_index)
 	{
@@ -466,6 +474,8 @@ sint8_t GPIO_pin_drive_current_config(struct GPIO_pin* _pin, uint8_t _config)
 		goto out;
 	}
 
+	_pin->pad_config.DRX = _config;
+
 	switch (_pin->port_index)
 	{
 		case PORTA:
@@ -609,6 +619,8 @@ sint8_t GPIO_pin_slew_rate_config(struct GPIO_pin* _pin, uint8_t _config)
 		res = -EINVARG;
 		goto out;
 	}
+	
+	_pin->pad_config.SLR = _config;
 
 	switch (_pin->port_index)
 	{
