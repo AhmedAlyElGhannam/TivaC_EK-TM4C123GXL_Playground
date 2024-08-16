@@ -3,7 +3,15 @@
 This repository contains my special drivers written for EK-TM4C123GXL LaunchPad (based on TM4C123GH6PM MCU) + Some projects cuz why not! XDD
 
 ## Bro Tip: Symbolic Link Between Files in a CCS Project
-
+I want to document this for future reference since I will probably forget how to do it but I am too lazy to write it down. So, here are a bunch of screenshots to *visualize* the steps needed to create a symbolic link with a file outside your CCS project directory.
+![](README_Photos/01.png)
+![](README_Photos/02.png)
+![](README_Photos/03.png)
+![](README_Photos/04.png)
+![](README_Photos/05.png)
+![](README_Photos/06.png)
+![](README_Photos/07.png)
+![](README_Photos/08.png)
 
 ## Using GPIO
 1. Enable gpio port clock via the function `sint8_t SYSCTL_gpio_port_clk_config(uint8_t _port_index, uint8_t _config);
