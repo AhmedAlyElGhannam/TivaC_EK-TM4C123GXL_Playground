@@ -1,5 +1,5 @@
-#include "sysctl.h"
-#include "gpio.h"
+#include "SYSCTL/sysctl.h"
+
 
 
 sint8_t SYSCTL_gpio_port_clk_config(uint8_t _port_index, uint8_t _config)

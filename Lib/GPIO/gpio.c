@@ -1,4 +1,4 @@
-#include "gpio.h"
+#include "GPIO/gpio.h"
 
 // GPIO Port ISRs -> note that each port ISR is shared between all its pins
 GPIO_INTERRUPT_CALLBACK_FUNC GPIO_ISR_PORTA = NULL;

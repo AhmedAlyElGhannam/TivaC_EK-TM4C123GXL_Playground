@@ -9,4 +9,7 @@ enum ReturnStatus
 	ERDONLY,
 };
 
+// to see if there is a symbolic link between files or not
+// it WORKED!
+
 #endif
