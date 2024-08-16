@@ -2,6 +2,8 @@
 
 This repository contains my special drivers written for EK-TM4C123GXL LaunchPad (based on TM4C123GH6PM MCU) + Some projects cuz why not! XDD
 
+## Bro Tip: Symbolic Link Between Files in a CCS Project
+
 
 ## Using GPIO
 1. Enable gpio port clock via the function `sint8_t SYSCTL_gpio_port_clk_config(uint8_t _port_index, uint8_t _config);
