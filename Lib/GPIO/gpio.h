@@ -141,7 +141,6 @@ sint8_t GPIO_pin_slew_rate_config(struct GPIO_pin* _pin, uint8_t _config);
 sint16_t GPIO_pin_digital_read(struct GPIO_pin* _pin);
 sint8_t GPIO_pin_digital_write(struct GPIO_pin* _pin, uint8_t _data);
 
-sint8_t GPIO_pin_interrupt_config(struct GPIO_pin* _pin);
 sint8_t GPIO_set_pin_ISR(struct GPIO_pin* _pin, GPIO_INTERRUPT_CALLBACK_FUNC _isr);
 sint8_t GPIO_pin_interrupt_sense_trig_config(struct GPIO_pin* _pin, uint8_t _config);
 sint8_t GPIO_pin_interrupt_mask_config(struct GPIO_pin* _pin, uint8_t _config);

@@ -1005,7 +1005,7 @@ out:
 	return res;
 }
 
-sint8_t GPIO_pin_interrupt_config(struct GPIO_pin* _pin)
+static sint8_t GPIO_pin_interrupt_config(struct GPIO_pin* _pin)
 {
 	sint8_t res = ALL_OK;
 	
