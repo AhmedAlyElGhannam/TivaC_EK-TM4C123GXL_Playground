@@ -32,8 +32,8 @@ enum DataDirection
 
 enum FeatureState
 {
-	DISABLED = 0,
-	ENABLED = 1
+	DISABLE = 0,
+	ENABLE = 1
 };
 
 #define NULL ((void*)0)

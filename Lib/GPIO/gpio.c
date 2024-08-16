@@ -87,7 +87,7 @@ sint8_t GPIO_pin_config_lock(struct GPIO_pin* _pin, uint32_t _lock)
 static void GPIO_set_pin_port_indices(struct GPIO_pin* _pin, uint8_t _port_index, uint8_t _pin_index)
 {
 	_pin->port_index = _port_index;
-	_pin->port_index = _pin_index;
+	_pin->pin_index = _pin_index;
 }
 
 sint8_t GPIO_pin_AFSEL_config(struct GPIO_pin* _pin, uint8_t _config)
@@ -100,7 +100,7 @@ sint8_t GPIO_pin_AFSEL_config(struct GPIO_pin* _pin, uint8_t _config)
 		goto out;
 	}
 
-	_pin->pad_config.AFSEL = _config;
+	_pin->pad_config->AFSEL = _config;
 	
 	switch (_pin->port_index)
 	{
@@ -161,7 +161,7 @@ sint8_t GPIO_pin_direction_config(struct GPIO_pin* _pin, uint8_t _config)
 		goto out;
 	}
 	
-	_pin->pad_config.DIR = _config;
+	_pin->pad_config->DIR = _config;
 
 	switch (_pin->port_index)
 	{
@@ -223,7 +223,7 @@ sint8_t GPIO_pin_digital_config(struct GPIO_pin* _pin, uint8_t _config)
 		goto out;
 	}
 
-	_pin->pad_config.DEN = _config;
+	_pin->pad_config->DEN = _config;
 
 	switch (_pin->port_index)
 	{
@@ -285,7 +285,7 @@ sint8_t GPIO_pin_resistor_config(struct GPIO_pin* _pin, uint8_t _config)
 		goto out;
 	}
 	
-	_pin->pad_config.RES = _config;
+	_pin->pad_config->RES = _config;
 
 	switch (_pin->port_index)
 	{
@@ -308,6 +308,12 @@ sint8_t GPIO_pin_resistor_config(struct GPIO_pin* _pin, uint8_t _config)
 				CLR_BIT(GPIOPUR_R_PORTA, _pin->pin_index);
 				CLR_BIT(GPIOPDR_R_PORTA, _pin->pin_index);
 			}
+			else // disable
+			{
+			    CLR_BIT(GPIOODR_R_PORTA, _pin->pin_index);
+			    CLR_BIT(GPIOPUR_R_PORTA, _pin->pin_index);
+			    CLR_BIT(GPIOPDR_R_PORTA, _pin->pin_index);
+			}
 		break;
 		
 		case PORTB:
@@ -329,6 +335,12 @@ sint8_t GPIO_pin_resistor_config(struct GPIO_pin* _pin, uint8_t _config)
 				CLR_BIT(GPIOPUR_R_PORTB, _pin->pin_index);
 				CLR_BIT(GPIOPDR_R_PORTB, _pin->pin_index);
 			}
+			else // disable
+			            {
+			                CLR_BIT(GPIOODR_R_PORTB, _pin->pin_index);
+			                CLR_BIT(GPIOPUR_R_PORTB, _pin->pin_index);
+			                CLR_BIT(GPIOPDR_R_PORTB, _pin->pin_index);
+			            }
 		break;
 		
 		case PORTC:
@@ -350,6 +362,12 @@ sint8_t GPIO_pin_resistor_config(struct GPIO_pin* _pin, uint8_t _config)
 				CLR_BIT(GPIOPUR_R_PORTC, _pin->pin_index);
 				CLR_BIT(GPIOPDR_R_PORTC, _pin->pin_index);
 			}
+			else // disable
+			            {
+			                CLR_BIT(GPIOODR_R_PORTC, _pin->pin_index);
+			                CLR_BIT(GPIOPUR_R_PORTC, _pin->pin_index);
+			                CLR_BIT(GPIOPDR_R_PORTC, _pin->pin_index);
+			            }
 		break;
 		
 		case PORTD:
@@ -371,6 +389,12 @@ sint8_t GPIO_pin_resistor_config(struct GPIO_pin* _pin, uint8_t _config)
 				CLR_BIT(GPIOPUR_R_PORTD, _pin->pin_index);
 				CLR_BIT(GPIOPDR_R_PORTD, _pin->pin_index);
 			}
+			else // disable
+			            {
+			                CLR_BIT(GPIOODR_R_PORTD, _pin->pin_index);
+			                CLR_BIT(GPIOPUR_R_PORTD, _pin->pin_index);
+			                CLR_BIT(GPIOPDR_R_PORTD, _pin->pin_index);
+			            }
 		break;
 		
 		case PORTE:
@@ -392,6 +416,12 @@ sint8_t GPIO_pin_resistor_config(struct GPIO_pin* _pin, uint8_t _config)
 				CLR_BIT(GPIOPUR_R_PORTE, _pin->pin_index);
 				CLR_BIT(GPIOPDR_R_PORTE, _pin->pin_index);
 			}
+			else // disable
+			            {
+			                CLR_BIT(GPIOODR_R_PORTE, _pin->pin_index);
+			                CLR_BIT(GPIOPUR_R_PORTE, _pin->pin_index);
+			                CLR_BIT(GPIOPDR_R_PORTE, _pin->pin_index);
+			            }
 		break;
 		
 		case PORTF:
@@ -413,6 +443,12 @@ sint8_t GPIO_pin_resistor_config(struct GPIO_pin* _pin, uint8_t _config)
 				CLR_BIT(GPIOPUR_R_PORTF, _pin->pin_index);
 				CLR_BIT(GPIOPDR_R_PORTF, _pin->pin_index);
 			}
+			else // disable
+			            {
+			                CLR_BIT(GPIOODR_R_PORTF, _pin->pin_index);
+			                CLR_BIT(GPIOPUR_R_PORTF, _pin->pin_index);
+			                CLR_BIT(GPIOPDR_R_PORTF, _pin->pin_index);
+			            }
 		break;
 	}
 
@@ -431,7 +467,7 @@ sint8_t GPIO_pin_drive_current_config(struct GPIO_pin* _pin, uint8_t _config)
 		goto out;
 	}
 
-	_pin->pad_config.DRX = _config;
+	_pin->pad_config->DRX = _config;
 
 	switch (_pin->port_index)
 	{
@@ -556,7 +592,7 @@ sint8_t GPIO_pin_drive_current_config(struct GPIO_pin* _pin, uint8_t _config)
 			else if (_config == DRIVE_CURRENT_8MA)
 			{
 				SET_BIT(GPIODR8R_R_PORTF, _pin->pin_index);
-				CLR_BIT(GPIODR2R_R_PORTF, _pin->pin_index);
+				CLR_BIT(GPIODR2R_R_PORTF, _pin->pin_index); // sets ALL bits other than the cleared one (unintended behaviour)
 				CLR_BIT(GPIODR4R_R_PORTF, _pin->pin_index);
 			}
 		break;
@@ -577,47 +613,47 @@ sint8_t GPIO_pin_slew_rate_config(struct GPIO_pin* _pin, uint8_t _config)
 		goto out;
 	}
 	
-	_pin->pad_config.SLR = _config;
+	_pin->pad_config->SLR = _config;
 
 	switch (_pin->port_index)
 	{
 		case PORTA:
-			if ((_config == ENABLE) && (_pin->pad_config.DRX == DRIVE_CURRENT_8MA))
+			if ((_config == ENABLE) && (_pin->pad_config->DRX == DRIVE_CURRENT_8MA))
 				SET_BIT(GPIOSLR_R_PORTA, _pin->pin_index);
 			else 
 				CLR_BIT(GPIOSLR_R_PORTA, _pin->pin_index);
 		break;
 		
 		case PORTB:
-			if ((_config == ENABLE) && (_pin->pad_config.DRX == DRIVE_CURRENT_8MA))
+			if ((_config == ENABLE) && (_pin->pad_config->DRX == DRIVE_CURRENT_8MA))
 				SET_BIT(GPIOSLR_R_PORTB, _pin->pin_index);
 			else 
 				CLR_BIT(GPIOSLR_R_PORTB, _pin->pin_index);
 		break;
 		
 		case PORTC:
-			if ((_config == ENABLE) && (_pin->pad_config.DRX == DRIVE_CURRENT_8MA))
+			if ((_config == ENABLE) && (_pin->pad_config->DRX == DRIVE_CURRENT_8MA))
 				SET_BIT(GPIOSLR_R_PORTC, _pin->pin_index);
 			else 
 				CLR_BIT(GPIOSLR_R_PORTC, _pin->pin_index);
 		break;
 		
 		case PORTD:
-			if ((_config == ENABLE) && (_pin->pad_config.DRX == DRIVE_CURRENT_8MA))
+			if ((_config == ENABLE) && (_pin->pad_config->DRX == DRIVE_CURRENT_8MA))
 				SET_BIT(GPIOSLR_R_PORTD, _pin->pin_index);
 			else 
 				CLR_BIT(GPIOSLR_R_PORTD, _pin->pin_index);
 		break;
 		
 		case PORTE:
-			if ((_config == ENABLE) && (_pin->pad_config.DRX == DRIVE_CURRENT_8MA))
+			if ((_config == ENABLE) && (_pin->pad_config->DRX == DRIVE_CURRENT_8MA))
 				SET_BIT(GPIOSLR_R_PORTE, _pin->pin_index);
 			else 
 				CLR_BIT(GPIOSLR_R_PORTE, _pin->pin_index);
 		break;
 		
 		case PORTF:
-			if ((_config == ENABLE) && (_pin->pad_config.DRX == DRIVE_CURRENT_8MA))
+			if ((_config == ENABLE) && (_pin->pad_config->DRX == DRIVE_CURRENT_8MA))
 				SET_BIT(GPIOSLR_R_PORTF, _pin->pin_index);
 			else 
 				CLR_BIT(GPIOSLR_R_PORTF, _pin->pin_index);
@@ -628,17 +664,17 @@ out:
 	return res;
 }
 
-static void GPIO_pin_assign_default_pad_config(struct GPIO_pin* _pin)
+static void GPIO_pin_assign_default_configs(struct GPIO_pin* _pin)
 {
-	_pin->pad_config.AFSEL = DISABLED;
-	_pin->pad_config.DIR = OUTPUT;
-	_pin->pad_config.DEN = ENABLED;
-	_pin->pad_config.RES = PULL_UP_RESISTOR;
-	_pin->pad_config.DRX = DRIVE_CURRENT_8MA;
-	_pin->pad_config.SLR = ENABLED;
+	_pin->pad_config->AFSEL = DISABLE;
+	_pin->pad_config->DIR = OUTPUT;
+	_pin->pad_config->DEN = ENABLE;
+	_pin->pad_config->RES = DISABLE;
+	_pin->pad_config->DRX = DRIVE_CURRENT_8MA;
+	_pin->pad_config->SLR = ENABLE;
 	
-	_pin->interrupt_config.sense_trig = RISING_EDGE;
-	_pin->interrupt_config.mask_state = MASKED;
+	_pin->interrupt_config->sense_trig = RISING_EDGE;
+	_pin->interrupt_config->mask_state = MASKED;
 }
 
 sint8_t GPIO_pin_pad_config(struct GPIO_pin* _pin)
@@ -651,37 +687,37 @@ sint8_t GPIO_pin_pad_config(struct GPIO_pin* _pin)
 		goto out;
 	}
 	
-	res = GPIO_pin_AFSEL_config(_pin, _pin->pad_config.AFSEL);
+	res = GPIO_pin_AFSEL_config(_pin, _pin->pad_config->AFSEL);
 	if (res < 0)
 	{
 		goto out;
 	}
 	
-	res = GPIO_pin_direction_config(_pin, _pin->pad_config.DIR);
+	res = GPIO_pin_direction_config(_pin, _pin->pad_config->DIR);
 	if (res < 0)
 	{
 		goto out;
 	}
 	
-	res = GPIO_pin_digital_config(_pin, _pin->pad_config.DEN);
+	res = GPIO_pin_digital_config(_pin, _pin->pad_config->DEN);
 	if (res < 0)
 	{
 		goto out;
 	}
 	
-	res = GPIO_pin_resistor_config(_pin, _pin->pad_config.RES);
+	res = GPIO_pin_resistor_config(_pin, _pin->pad_config->RES);
 	if (res < 0)
 	{
 		goto out;
 	}
 	
-	res = GPIO_pin_drive_current_config(_pin, _pin->pad_config.DRX);
+	res = GPIO_pin_drive_current_config(_pin, _pin->pad_config->DRX);
 	if (res < 0)
 	{
 		goto out;
 	}
 	
-	res = GPIO_pin_slew_rate_config(_pin, _pin->pad_config.SLR);
+	res = GPIO_pin_slew_rate_config(_pin, _pin->pad_config->SLR);
 	if (res < 0)
 	{
 		goto out;
@@ -701,7 +737,7 @@ sint8_t GPIO_pin_interrupt_sense_trig_config(struct GPIO_pin* _pin, uint8_t _con
 		goto out;
 	}
 
-	_pin->interrupt_config.sense_trig = _config;
+	_pin->interrupt_config->sense_trig = _config;
 	
 	switch (_pin->port_index)
 	{
@@ -918,7 +954,7 @@ sint8_t GPIO_pin_interrupt_mask_config(struct GPIO_pin* _pin, uint8_t _config)
 		goto out;
 	}
 	
-	_pin->interrupt_config.mask_state = _config;
+	_pin->interrupt_config->mask_state = _config;
 
 	switch (_pin->port_index)
 	{
@@ -979,13 +1015,13 @@ sint8_t GPIO_pin_interrupt_config(struct GPIO_pin* _pin)
 		goto out;
 	}
 	
-	res = GPIO_pin_interrupt_sense_trig_config(_pin, _pin->interrupt_config.sense_trig);
+	res = GPIO_pin_interrupt_sense_trig_config(_pin, _pin->interrupt_config->sense_trig);
 	if (res < 0)
 	{
 		goto out;
 	}
 	
-	res = GPIO_pin_interrupt_mask_config(_pin, _pin->interrupt_config.mask_state);
+	res = GPIO_pin_interrupt_mask_config(_pin, _pin->interrupt_config->mask_state);
 	if (res < 0)
 	{
 		goto out;
@@ -1007,14 +1043,14 @@ sint8_t GPIO_pin_init(struct GPIO_pin* _pin, uint8_t _port_index, uint8_t _pin_i
 	}
 	
 	// check for passed port index
-	if (~((_port_index >= PORTA) && (_port_index <= PORTF)))
+	if ((_port_index < PORTA) || (_port_index > PORTF))
 	{
 		res = -EINVARG;
 		goto out;
 	}
 	
 	// check for passed pin index
-	if (~(_pin_index < PORTA_MAX_PIN))
+	if (_pin_index >= PORTA_MAX_PIN)
 	{
 		res = -EINVARG;
 		goto out;
@@ -1028,23 +1064,22 @@ sint8_t GPIO_pin_init(struct GPIO_pin* _pin, uint8_t _port_index, uint8_t _pin_i
 	}
 	
 	// set port and pin indices
-	GPIO_set_pin_port_indices(_pin, _port_index, _pin_index)
+	GPIO_set_pin_port_indices(_pin, _port_index, _pin_index);
 	
 	// set ISR to NULL until explicitly changed
 	GPIO_set_pin_ISR(_pin, (GPIO_INTERRUPT_CALLBACK_FUNC)NULL);
 	
 	// by default, port is unlocked
-	GPIO_pin_config_lock(_pin, UNLOCK);
-	
+	//GPIO_pin_config_lock(_pin, UNLOCK);
 	
 	// default pad and interrupt configuration for pin
 	GPIO_pin_assign_default_configs(_pin);	
 	
 	// pin pad config
-	GPIO_pin_pad_config(_pin);
+	//GPIO_pin_pad_config(_pin);
 	
 	// pin interrupt config
-	GPIO_pin_interrupt_config(_pin);
+	//GPIO_pin_interrupt_config(_pin);
 	
 out:
 	return res;

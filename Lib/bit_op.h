@@ -2,10 +2,10 @@
 #define BIT_OPERATION_H
 
 #include "std_types.h"
-#define SET_BIT(X, POS) ((X) |= (0x01 << (POS)))
-#define CLR_BIT(X, POS) ( (X) &= ~(0x01 << (POS)) )
-#define TOG_BIT(X, POS) ( (X) ^= (0x01 << POS) )
-#define GET_BIT(X, POS) ( ((X) >> (POS)) & 0x01 )
+#define SET_BIT(X, POS) ((X) |= (0x01 << ((uint32_t)POS)))
+#define CLR_BIT(X, POS) ( (X) &= ~(0x01 << ((uint32_t)POS)) )
+#define TOG_BIT(X, POS) ( (X) ^= (0x01 << ((uint32_t)POS)) )
+#define GET_BIT(X, POS) ( ((X) >> ((uint32_t)POS)) & 0x01 )
 
 #define SET_PORT(Y) ( (Y) = 0xFF )
 #define CLR_PORT(Y) ( (Y) = 0x00 )
