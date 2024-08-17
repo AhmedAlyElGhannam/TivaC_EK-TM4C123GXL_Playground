@@ -1014,23 +1014,28 @@
     @Name: UART Interrupt Mask Register
     @Layout:
         bit31:bit13	-> reserved (RO)
-		bit12	   	-> CTSEN   	(RW)
+		bit12	   	-> 9BITIM   (RW)
 		bit11	   	-> reserved (RW)
-		bit10    	-> reserved (RO)
-		bit11	   	-> RTS   	(RW)
-		bit10	   	-> reserved (RO)
-		bit9	   	-> RXE   	(RW)
-		bit8	   	-> TXE   	(RW)
-		bit7	   	-> LBE   	(RW)
-		bit6	   	-> reserved (RO)
-		bit5	   	-> HSE   	(RW)
-		bit4	   	-> EOT   	(RW)
+		bit10    	-> OEIM 	(RW)
+		bit9	   	-> BEIM   	(RW)
+		bit8	   	-> PEIM   	(RW)
+		bit7	   	-> FEIM   	(RW)
+		bit6	   	-> RTIM 	(RW)
+		bit5	   	-> TXIM   	(RW)
+		bit4	   	-> RXIM   	(RW)
 		bit3:bit2	-> reserved (RO)
-		bit1	   	-> SIREN   	(RW)
+		bit1	   	-> CTSIM   	(RW)
 		bit0	   	-> reserved (RO)
     @Function:
-		RXIFLSEL: 0x00=>Rx FIFO 1/8 full, 0x01=>Rx FIFO 1/4 full, 0x02=>Rx FIFO 1/2 full (default), 0x03=>Rx FIFO 3/4 full, 0x04=>Rx FIFO 7/8 full
-		TXIFLSEL: 0x00=>Tx FIFO 1/8 full, 0x01=>Tx FIFO 1/4 full, 0x02=>Tx FIFO 1/2 full (default), 0x03=>Tx FIFO 3/4 full, 0x04=>Tx FIFO 7/8 full
+		9BITIM (9-Bit Mode Interrupt Mask) -> = 0 9BITRIS interrupt is suppressed and not sent to the interrupt controller : = 1 an interrupt is sent to the interrupt controller when the 9BITRIS bit in the UARTRIS register is set
+		OEIM (UART Overrun Error Interrupt Mask) -> = 0 OERIS interrupt is suppressed and not sent to the interrupt controller : = 1 an interrupt is sent to the interrupt controller when the OERIS bit in the UARTRIS register is set
+		BEIM (UART Break Error Interrupt Mask) -> = 0 BERIS interrupt is suppressed and not sent to the interrupt controller : = 1 an interrupt is sent to the interrupt controller when the BERIS bit in the UARTRIS register is set
+		PEIM (UART Parity Error Interrupt Mask) -> = 0 PERIS interrupt is suppressed and not sent to the interrupt controller : = 1 an interrupt is sent to the interrupt controller when the PERIS bit in the UARTRIS register is set
+		FEIM (UART Framing Error Interrupt Mask) -> = 0 FERIS interrupt is suppressed and not sent to the interrupt controller : = 1 an interrupt is sent to the interrupt controller when the FERIS bit in the UARTRIS register is set
+		RTIM (UART Receive Time-Out Interrupt Mask) -> = 0 RTRIS interrupt is suppressed and not sent to the interrupt controller : = 1 an interrupt is sent to the interrupt controller when the RTRIS bit in the UARTRIS register is set
+		TXIM (UART Transmit Interrupt Mask) -> = 0 TXRIS interrupt is suppressed and not sent to the interrupt controller : = 1 an interrupt is sent to the interrupt controller when the TXRIS bit in the UARTRIS register is set
+		RXIM (UART Receive Interrupt Mask) -> = 0 RXRIS interrupt is suppressed and not sent to the interrupt controller : = 1 an interrupt is sent to the interrupt controller when the RXRIS bit in the UARTRIS register is set
+		CTSIM (UART Clear To Sent Modem Interrupt Mask) -> = 0 CTSRIS interrupt is suppressed and not sent to the interrupt controller : = 1 an interrupt is sent to the interrupt controller when the CTSRIS bit in the UARTRIS register is set
 */
 #define UART_UARTIM_OFFSET  	(0x038)
 #define UARTIM_R_UART0			(*(volatile uint32_t*)(UART_UART0_BASE + UART_UARTIM_OFFSET))
@@ -1042,6 +1047,444 @@
 #define UARTIM_R_UART6  		(*(volatile uint32_t*)(UART_UART6_BASE + UART_UARTIM_OFFSET))
 #define UARTIM_R_UART7  		(*(volatile uint32_t*)(UART_UART7_BASE + UART_UARTIM_OFFSET))
 
+
+/**
+    @Name: UART Raw Interrupt Status Register
+    @Layout:
+        bit31:bit13	-> reserved (RO)
+		bit12	   	-> 9BITIM   (RO)
+		bit11	   	-> reserved (RO)
+		bit10    	-> OEIM 	(RO)
+		bit9	   	-> BEIM   	(RO)
+		bit8	   	-> PEIM   	(RO)
+		bit7	   	-> FEIM   	(RO)
+		bit6	   	-> RTIM 	(RO)
+		bit5	   	-> TXIM   	(RO)
+		bit4	   	-> RXIM   	(RO)
+		bit3:bit2	-> reserved (RO)
+		bit1	   	-> CTSIM   	(RO)
+		bit0	   	-> reserved (RO)
+    @Function:
+		Reading 0 -> No Interrupt
+		Reading 1 -> 
+			9BITRIS => receive address match occurred
+			OERIS => overrun error has occurred
+			BERIS => break error has occurred
+			PERIS => parity error has occurred
+			FERIS => framing error has occurred
+			RTRIS => receive time out has occurred
+			TXRIS => if EOT bit in UARTCTL is clear the transmit FIFO level has passed through the condition defined in the UARTIFLS register. If the EOT bit is set,the last bit of all transmitted data and flags has left the serializer.
+			RXRIS => receive FIFO has passed through the condition defined in UARTIFLS register
+			CTSRIS => clear to send used for software flow control
+	@Note:
+		indicates whether an interrupt condition has occurred regardless of whether the interrupt is enabled or masked
+*/
+#define UART_UARTRIS_OFFSET  	(0x038)
+#define UARTRIS_R_UART0			(*(volatile uint32_t*)(UART_UART0_BASE + UART_UARTRIS_OFFSET))
+#define UARTRIS_R_UART1  		(*(volatile uint32_t*)(UART_UART1_BASE + UART_UARTRIS_OFFSET))
+#define UARTRIS_R_UART2  		(*(volatile uint32_t*)(UART_UART2_BASE + UART_UARTRIS_OFFSET))
+#define UARTRIS_R_UART3  		(*(volatile uint32_t*)(UART_UART3_BASE + UART_UARTRIS_OFFSET))
+#define UARTRIS_R_UART4  		(*(volatile uint32_t*)(UART_UART4_BASE + UART_UARTRIS_OFFSET))
+#define UARTRIS_R_UART5  		(*(volatile uint32_t*)(UART_UART5_BASE + UART_UARTRIS_OFFSET))
+#define UARTRIS_R_UART6  		(*(volatile uint32_t*)(UART_UART6_BASE + UART_UARTRIS_OFFSET))
+#define UARTRIS_R_UART7  		(*(volatile uint32_t*)(UART_UART7_BASE + UART_UARTRIS_OFFSET))
+
+
+/**
+    @Name: UART Masked Interrupt Status Register
+    @Layout:
+        bit31:bit13	-> reserved (RO)
+		bit12	   	-> 9BITIM   (RO)
+		bit11	   	-> reserved (RO)
+		bit10    	-> OEIM 	(RO)
+		bit9	   	-> BEIM   	(RO)
+		bit8	   	-> PEIM   	(RO)
+		bit7	   	-> FEIM   	(RO)
+		bit6	   	-> RTIM 	(RO)
+		bit5	   	-> TXIM   	(RO)
+		bit4	   	-> RXIM   	(RO)
+		bit3:bit2	-> reserved (RO)
+		bit1	   	-> CTSIM   	(RO)
+		bit0	   	-> reserved (RO)
+    @Function:
+		Reading 0 -> No Interrupt Occurred or is Masked
+		Reading 1 -> Unmasked Interrupt was raised
+	@Note:
+		indicates whether an interrupt is both active and enabled (i.e., whether it can generate an interrupt request to the CPU)
+*/
+#define UART_UARTMIS_OFFSET  	(0x040)
+#define UARTMIS_R_UART0			(*(volatile uint32_t*)(UART_UART0_BASE + UART_UARTMIS_OFFSET))
+#define UARTMIS_R_UART1  		(*(volatile uint32_t*)(UART_UART1_BASE + UART_UARTMIS_OFFSET))
+#define UARTMIS_R_UART2  		(*(volatile uint32_t*)(UART_UART2_BASE + UART_UARTMIS_OFFSET))
+#define UARTMIS_R_UART3  		(*(volatile uint32_t*)(UART_UART3_BASE + UART_UARTMIS_OFFSET))
+#define UARTMIS_R_UART4  		(*(volatile uint32_t*)(UART_UART4_BASE + UART_UARTMIS_OFFSET))
+#define UARTMIS_R_UART5  		(*(volatile uint32_t*)(UART_UART5_BASE + UART_UARTMIS_OFFSET))
+#define UARTMIS_R_UART6  		(*(volatile uint32_t*)(UART_UART6_BASE + UART_UARTMIS_OFFSET))
+#define UARTMIS_R_UART7  		(*(volatile uint32_t*)(UART_UART7_BASE + UART_UARTMIS_OFFSET))
+
+
+/**
+    @Name: UART Interrupt Clear Register
+    @Layout:
+        bit31:bit13	-> reserved (RO)
+		bit12	   	-> 9BITIM   (W1C)
+		bit11	   	-> reserved (RO)
+		bit10    	-> OEIM 	(W1C)
+		bit9	   	-> BEIM   	(W1C)
+		bit8	   	-> PEIM   	(W1C)
+		bit7	   	-> FEIM   	(W1C)
+		bit6	   	-> RTIM 	(W1C)
+		bit5	   	-> TXIM   	(W1C)
+		bit4	   	-> RXIM   	(W1C)
+		bit3:bit2	-> reserved (RO)
+		bit1	   	-> CTSIM   	(W1C)
+		bit0	   	-> reserved (RO)
+    @Function:
+		Writing 1 clears the corresponding bits in UARTMIS & UARTRIS registers
+*/
+#define UART_UARTICR_OFFSET  	(0x044)
+#define UARTICR_R_UART0			(*(volatile uint32_t*)(UART_UART0_BASE + UART_UARTICR_OFFSET))
+#define UARTICR_R_UART1  		(*(volatile uint32_t*)(UART_UART1_BASE + UART_UARTICR_OFFSET))
+#define UARTICR_R_UART2  		(*(volatile uint32_t*)(UART_UART2_BASE + UART_UARTICR_OFFSET))
+#define UARTICR_R_UART3  		(*(volatile uint32_t*)(UART_UART3_BASE + UART_UARTICR_OFFSET))
+#define UARTICR_R_UART4  		(*(volatile uint32_t*)(UART_UART4_BASE + UART_UARTICR_OFFSET))
+#define UARTICR_R_UART5  		(*(volatile uint32_t*)(UART_UART5_BASE + UART_UARTICR_OFFSET))
+#define UARTICR_R_UART6  		(*(volatile uint32_t*)(UART_UART6_BASE + UART_UARTICR_OFFSET))
+#define UARTICR_R_UART7  		(*(volatile uint32_t*)(UART_UART7_BASE + UART_UARTICR_OFFSET))
+
+
+/**
+    @Name: UART DMA Control Register
+    @Layout:
+        bit31:bit3	-> reserved (RO)
+		bit2		-> DMAERR 	(RW)
+		bit1	   	-> TXDMAE	(RW)
+		bit0	   	-> RXDMAE 	(RW)
+    @Function:
+		DMAERR (DMA on Error) -> = 0 uDMA receive requests are unaffected when an error occurs : = 1 uDMA receive requests are automatically disabled when a receive error occurs
+		TXDMAE (Transmit DMA Enable) -> = 0 uDMA for transmit FIFO is disabled : = 1 uDMA is enabled for transmit FIFO
+		RXDMAE (Transmit DMA Enable) -> = 0 uDMA for receive FIFO is disabled : = 1 uDMA is enabled for receive FIFO		
+*/
+#define UART_UARTDMACTL_OFFSET  	(0x048)
+#define UARTDMACTL_R_UART0			(*(volatile uint32_t*)(UART_UART0_BASE + UART_UARTDMACTL_OFFSET))
+#define UARTDMACTL_R_UART1  		(*(volatile uint32_t*)(UART_UART1_BASE + UART_UARTDMACTL_OFFSET))
+#define UARTDMACTL_R_UART2  		(*(volatile uint32_t*)(UART_UART2_BASE + UART_UARTDMACTL_OFFSET))
+#define UARTDMACTL_R_UART3  		(*(volatile uint32_t*)(UART_UART3_BASE + UART_UARTDMACTL_OFFSET))
+#define UARTDMACTL_R_UART4  		(*(volatile uint32_t*)(UART_UART4_BASE + UART_UARTDMACTL_OFFSET))
+#define UARTDMACTL_R_UART5  		(*(volatile uint32_t*)(UART_UART5_BASE + UART_UARTDMACTL_OFFSET))
+#define UARTDMACTL_R_UART6  		(*(volatile uint32_t*)(UART_UART6_BASE + UART_UARTDMACTL_OFFSET))
+#define UARTDMACTL_R_UART7  		(*(volatile uint32_t*)(UART_UART7_BASE + UART_UARTDMACTL_OFFSET))
+
+
+/**
+    @Name: UART 9-Bit Self Address Register
+    @Layout:
+        bit31:bit16	-> reserved (RO)
+		bit15		-> 9BITEN 	(RW)
+		bit14:bit8	-> reserved (RO)
+		bit7:bit0	-> ADDR 	(RW)
+    @Function:
+		9BITEN (9-Bit Enable) -> = 0 for disabled : =1 for enabled
+		ADDR (Self-Address for 9-Bit Mode) -> address that should be matched when UART9BITAMASK is 0xFF
+*/
+#define UART_UART9BITADDR_OFFSET  	(0x0A4)
+#define UART9BITADDR_R_UART0		(*(volatile uint32_t*)(UART_UART0_BASE + UART_UART9BITADDR_OFFSET))
+#define UART9BITADDR_R_UART1  		(*(volatile uint32_t*)(UART_UART1_BASE + UART_UART9BITADDR_OFFSET))
+#define UART9BITADDR_R_UART2  		(*(volatile uint32_t*)(UART_UART2_BASE + UART_UART9BITADDR_OFFSET))
+#define UART9BITADDR_R_UART3  		(*(volatile uint32_t*)(UART_UART3_BASE + UART_UART9BITADDR_OFFSET))
+#define UART9BITADDR_R_UART4  		(*(volatile uint32_t*)(UART_UART4_BASE + UART_UART9BITADDR_OFFSET))
+#define UART9BITADDR_R_UART5  		(*(volatile uint32_t*)(UART_UART5_BASE + UART_UART9BITADDR_OFFSET))
+#define UART9BITADDR_R_UART6  		(*(volatile uint32_t*)(UART_UART6_BASE + UART_UART9BITADDR_OFFSET))
+#define UART9BITADDR_R_UART7  		(*(volatile uint32_t*)(UART_UART7_BASE + UART_UART9BITADDR_OFFSET))
+
+
+/**
+    @Name: UART 9-Bit Self Address Mask Register
+    @Layout:
+        bit31:bit8	-> reserved (RO)
+		bit7:bit0	-> MASK 	(RW)
+    @Function:
+		MASK (Self Address Mask For 9-Bit Mode) -> contains the address mask that creates a set of addresses that should be matched
+*/
+#define UART_UART9BITAMASK_OFFSET  	(0x0A8)
+#define UART9BITAMASK_R_UART0		(*(volatile uint32_t*)(UART_UART0_BASE + UART_UART9BITAMASK_OFFSET))
+#define UART9BITAMASK_R_UART1  		(*(volatile uint32_t*)(UART_UART1_BASE + UART_UART9BITAMASK_OFFSET))
+#define UART9BITAMASK_R_UART2  		(*(volatile uint32_t*)(UART_UART2_BASE + UART_UART9BITAMASK_OFFSET))
+#define UART9BITAMASK_R_UART3  		(*(volatile uint32_t*)(UART_UART3_BASE + UART_UART9BITAMASK_OFFSET))
+#define UART9BITAMASK_R_UART4  		(*(volatile uint32_t*)(UART_UART4_BASE + UART_UART9BITAMASK_OFFSET))
+#define UART9BITAMASK_R_UART5  		(*(volatile uint32_t*)(UART_UART5_BASE + UART_UART9BITAMASK_OFFSET))
+#define UART9BITAMASK_R_UART6  		(*(volatile uint32_t*)(UART_UART6_BASE + UART_UART9BITAMASK_OFFSET))
+#define UART9BITAMASK_R_UART7  		(*(volatile uint32_t*)(UART_UART7_BASE + UART_UART9BITAMASK_OFFSET))
+
+
+/**
+    @Name: UART Peripheral Properties Register
+    @Layout:
+        bit31:bit2	-> reserved (RO)
+		bit1		-> NB	 	(RW)
+		bit0		-> SC		(RW)
+    @Function:
+		NB (9-Bit Support) -> = 0 UART module does not provide support for the transmission of 9-bit data for RS-485 support : = 1 UART module provides support
+		SC (Smart Card Support) -> = 0 UART module does not provide smart card support : = 1 UART module provides smart card support
+*/
+#define UART_UARTPP_OFFSET  	(0xFC0)
+#define UARTPP_R_UART0			(*(volatile uint32_t*)(UART_UART0_BASE + UART_UARTPP_OFFSET))
+#define UARTPP_R_UART1  		(*(volatile uint32_t*)(UART_UART1_BASE + UART_UARTPP_OFFSET))
+#define UARTPP_R_UART2  		(*(volatile uint32_t*)(UART_UART2_BASE + UART_UARTPP_OFFSET))
+#define UARTPP_R_UART3  		(*(volatile uint32_t*)(UART_UART3_BASE + UART_UARTPP_OFFSET))
+#define UARTPP_R_UART4  		(*(volatile uint32_t*)(UART_UART4_BASE + UART_UARTPP_OFFSET))
+#define UARTPP_R_UART5  		(*(volatile uint32_t*)(UART_UART5_BASE + UART_UARTPP_OFFSET))
+#define UARTPP_R_UART6  		(*(volatile uint32_t*)(UART_UART6_BASE + UART_UARTPP_OFFSET))
+#define UARTPP_R_UART7  		(*(volatile uint32_t*)(UART_UART7_BASE + UART_UARTPP_OFFSET))
+
+
+/**
+    @Name: UART Clock Configuration Register
+    @Layout:
+        bit31:bit4	-> reserved (RO)
+		bit3:bit0	-> CS	 	(RW)
+    @Function:
+		CS (UART Baud Clock Source):
+			0x00 => System Clock
+			0x05 => PIOSC (Precision Internal Oscillator -- provides a fixed frequency of 16 MHz)
+*/
+#define UART_UARTCC_OFFSET  	(0xFC8)
+#define UARTCC_R_UART0			(*(volatile uint32_t*)(UART_UART0_BASE + UART_UARTCC_OFFSET))
+#define UARTCC_R_UART1  		(*(volatile uint32_t*)(UART_UART1_BASE + UART_UARTCC_OFFSET))
+#define UARTCC_R_UART2  		(*(volatile uint32_t*)(UART_UART2_BASE + UART_UARTCC_OFFSET))
+#define UARTCC_R_UART3  		(*(volatile uint32_t*)(UART_UART3_BASE + UART_UARTCC_OFFSET))
+#define UARTCC_R_UART4  		(*(volatile uint32_t*)(UART_UART4_BASE + UART_UARTCC_OFFSET))
+#define UARTCC_R_UART5  		(*(volatile uint32_t*)(UART_UART5_BASE + UART_UARTCC_OFFSET))
+#define UARTCC_R_UART6  		(*(volatile uint32_t*)(UART_UART6_BASE + UART_UARTCC_OFFSET))
+#define UARTCC_R_UART7  		(*(volatile uint32_t*)(UART_UART7_BASE + UART_UARTCC_OFFSET))
+
+
+/**
+    @Name: UART Peripheral Identification 4 Register
+    @Layout:
+        bit31:bit8	-> reserved (RO)
+		bit7:bit0	-> PID4	 	(RW)
+    @Function:
+		Can be used by software to identify the presence of this peripheral
+*/
+#define UART_UARTPID4_OFFSET  	(0xFD0)
+#define UARTPID4_R_UART0		(*(volatile uint32_t*)(UART_UART0_BASE + UART_UARTPID4_OFFSET))
+#define UARTPID4_R_UART1  		(*(volatile uint32_t*)(UART_UART1_BASE + UART_UARTPID4_OFFSET))
+#define UARTPID4_R_UART2  		(*(volatile uint32_t*)(UART_UART2_BASE + UART_UARTPID4_OFFSET))
+#define UARTPID4_R_UART3  		(*(volatile uint32_t*)(UART_UART3_BASE + UART_UARTPID4_OFFSET))
+#define UARTPID4_R_UART4  		(*(volatile uint32_t*)(UART_UART4_BASE + UART_UARTPID4_OFFSET))
+#define UARTPID4_R_UART5  		(*(volatile uint32_t*)(UART_UART5_BASE + UART_UARTPID4_OFFSET))
+#define UARTPID4_R_UART6  		(*(volatile uint32_t*)(UART_UART6_BASE + UART_UARTPID4_OFFSET))
+#define UARTPID4_R_UART7  		(*(volatile uint32_t*)(UART_UART7_BASE + UART_UARTPID4_OFFSET))
+
+
+/**
+    @Name: UART Peripheral Identification 5 Register
+    @Layout:
+        bit31:bit8	-> reserved (RO)
+		bit7:bit0	-> PID5	 	(RW)
+    @Function:
+		Can be used by software to identify the presence of this peripheral
+*/
+#define UART_UARTPID5_OFFSET  	(0xFD4)
+#define UARTPID5_R_UART0		(*(volatile uint32_t*)(UART_UART0_BASE + UART_UARTPID5_OFFSET))
+#define UARTPID5_R_UART1  		(*(volatile uint32_t*)(UART_UART1_BASE + UART_UARTPID5_OFFSET))
+#define UARTPID5_R_UART2  		(*(volatile uint32_t*)(UART_UART2_BASE + UART_UARTPID5_OFFSET))
+#define UARTPID5_R_UART3  		(*(volatile uint32_t*)(UART_UART3_BASE + UART_UARTPID5_OFFSET))
+#define UARTPID5_R_UART4  		(*(volatile uint32_t*)(UART_UART4_BASE + UART_UARTPID5_OFFSET))
+#define UARTPID5_R_UART5  		(*(volatile uint32_t*)(UART_UART5_BASE + UART_UARTPID5_OFFSET))
+#define UARTPID5_R_UART6  		(*(volatile uint32_t*)(UART_UART6_BASE + UART_UARTPID5_OFFSET))
+#define UARTPID5_R_UART7  		(*(volatile uint32_t*)(UART_UART7_BASE + UART_UARTPID5_OFFSET))
+
+
+/**
+    @Name: UART Peripheral Identification 6 Register
+    @Layout:
+        bit31:bit8	-> reserved (RO)
+		bit7:bit0	-> PID6	 	(RW)
+    @Function:
+		Can be used by software to identify the presence of this peripheral
+*/
+#define UART_UARTPID6_OFFSET  	(0xFD8)
+#define UARTPID6_R_UART0		(*(volatile uint32_t*)(UART_UART0_BASE + UART_UARTPID6_OFFSET))
+#define UARTPID6_R_UART1  		(*(volatile uint32_t*)(UART_UART1_BASE + UART_UARTPID6_OFFSET))
+#define UARTPID6_R_UART2  		(*(volatile uint32_t*)(UART_UART2_BASE + UART_UARTPID6_OFFSET))
+#define UARTPID6_R_UART3  		(*(volatile uint32_t*)(UART_UART3_BASE + UART_UARTPID6_OFFSET))
+#define UARTPID6_R_UART4  		(*(volatile uint32_t*)(UART_UART4_BASE + UART_UARTPID6_OFFSET))
+#define UARTPID6_R_UART5  		(*(volatile uint32_t*)(UART_UART5_BASE + UART_UARTPID6_OFFSET))
+#define UARTPID6_R_UART6  		(*(volatile uint32_t*)(UART_UART6_BASE + UART_UARTPID6_OFFSET))
+#define UARTPID6_R_UART7  		(*(volatile uint32_t*)(UART_UART7_BASE + UART_UARTPID6_OFFSET))
+
+
+/**
+    @Name: UART Peripheral Identification 7 Register
+    @Layout:
+        bit31:bit8	-> reserved (RO)
+		bit7:bit0	-> PID7	 	(RW)
+    @Function:
+		Can be used by software to identify the presence of this peripheral
+*/
+#define UART_UARTPID7_OFFSET  	(0xFDC)
+#define UARTPID7_R_UART0		(*(volatile uint32_t*)(UART_UART0_BASE + UART_UARTPID7_OFFSET))
+#define UARTPID7_R_UART1  		(*(volatile uint32_t*)(UART_UART1_BASE + UART_UARTPID7_OFFSET))
+#define UARTPID7_R_UART2  		(*(volatile uint32_t*)(UART_UART2_BASE + UART_UARTPID7_OFFSET))
+#define UARTPID7_R_UART3  		(*(volatile uint32_t*)(UART_UART3_BASE + UART_UARTPID7_OFFSET))
+#define UARTPID7_R_UART4  		(*(volatile uint32_t*)(UART_UART4_BASE + UART_UARTPID7_OFFSET))
+#define UARTPID7_R_UART5  		(*(volatile uint32_t*)(UART_UART5_BASE + UART_UARTPID7_OFFSET))
+#define UARTPID7_R_UART6  		(*(volatile uint32_t*)(UART_UART6_BASE + UART_UARTPID7_OFFSET))
+#define UARTPID7_R_UART7  		(*(volatile uint32_t*)(UART_UART7_BASE + UART_UARTPID7_OFFSET))
+
+
+/**
+    @Name: UART Peripheral Identification 0 Register
+    @Layout:
+        bit31:bit8	-> reserved (RO)
+		bit7:bit0	-> PID40 	(RW)
+    @Function:
+		Can be used by software to identify the presence of this peripheral
+*/
+#define UART_UARTPID0_OFFSET  	(0xFE0)
+#define UARTPID0_R_UART0		(*(volatile uint32_t*)(UART_UART0_BASE + UART_UARTPID0_OFFSET))
+#define UARTPID0_R_UART1  		(*(volatile uint32_t*)(UART_UART1_BASE + UART_UARTPID0_OFFSET))
+#define UARTPID0_R_UART2  		(*(volatile uint32_t*)(UART_UART2_BASE + UART_UARTPID0_OFFSET))
+#define UARTPID0_R_UART3  		(*(volatile uint32_t*)(UART_UART3_BASE + UART_UARTPID0_OFFSET))
+#define UARTPID0_R_UART4  		(*(volatile uint32_t*)(UART_UART4_BASE + UART_UARTPID0_OFFSET))
+#define UARTPID0_R_UART5  		(*(volatile uint32_t*)(UART_UART5_BASE + UART_UARTPID0_OFFSET))
+#define UARTPID0_R_UART6  		(*(volatile uint32_t*)(UART_UART6_BASE + UART_UARTPID0_OFFSET))
+#define UARTPID0_R_UART7  		(*(volatile uint32_t*)(UART_UART7_BASE + UART_UARTPID0_OFFSET))
+
+
+/**
+    @Name: UART Peripheral Identification 1 Register
+    @Layout:
+        bit31:bit8	-> reserved (RO)
+		bit7:bit0	-> PID1	 	(RW)
+    @Function:
+		Can be used by software to identify the presence of this peripheral
+*/
+#define UART_UARTPID1_OFFSET  	(0xFE4)
+#define UARTPID1_R_UART0		(*(volatile uint32_t*)(UART_UART0_BASE + UART_UARTPID1_OFFSET))
+#define UARTPID1_R_UART1  		(*(volatile uint32_t*)(UART_UART1_BASE + UART_UARTPID1_OFFSET))
+#define UARTPID1_R_UART2  		(*(volatile uint32_t*)(UART_UART2_BASE + UART_UARTPID1_OFFSET))
+#define UARTPID1_R_UART3  		(*(volatile uint32_t*)(UART_UART3_BASE + UART_UARTPID1_OFFSET))
+#define UARTPID1_R_UART4  		(*(volatile uint32_t*)(UART_UART4_BASE + UART_UARTPID1_OFFSET))
+#define UARTPID1_R_UART5  		(*(volatile uint32_t*)(UART_UART5_BASE + UART_UARTPID1_OFFSET))
+#define UARTPID1_R_UART6  		(*(volatile uint32_t*)(UART_UART6_BASE + UART_UARTPID1_OFFSET))
+#define UARTPID1_R_UART7  		(*(volatile uint32_t*)(UART_UART7_BASE + UART_UARTPID1_OFFSET))
+
+
+/**
+    @Name: UART Peripheral Identification 2 Register
+    @Layout:
+        bit31:bit8	-> reserved (RO)
+		bit7:bit0	-> PID2	 	(RW)
+    @Function:
+		Can be used by software to identify the presence of this peripheral
+*/
+#define UART_UARTPID2_OFFSET  	(0xFE8)
+#define UARTPID2_R_UART0		(*(volatile uint32_t*)(UART_UART0_BASE + UART_UARTPID2_OFFSET))
+#define UARTPID2_R_UART1  		(*(volatile uint32_t*)(UART_UART1_BASE + UART_UARTPID2_OFFSET))
+#define UARTPID2_R_UART2  		(*(volatile uint32_t*)(UART_UART2_BASE + UART_UARTPID2_OFFSET))
+#define UARTPID2_R_UART3  		(*(volatile uint32_t*)(UART_UART3_BASE + UART_UARTPID2_OFFSET))
+#define UARTPID2_R_UART4  		(*(volatile uint32_t*)(UART_UART4_BASE + UART_UARTPID2_OFFSET))
+#define UARTPID2_R_UART5  		(*(volatile uint32_t*)(UART_UART5_BASE + UART_UARTPID2_OFFSET))
+#define UARTPID2_R_UART6  		(*(volatile uint32_t*)(UART_UART6_BASE + UART_UARTPID2_OFFSET))
+#define UARTPID2_R_UART7  		(*(volatile uint32_t*)(UART_UART7_BASE + UART_UARTPID2_OFFSET))
+
+
+/**
+    @Name: UART Peripheral Identification 3 Register
+    @Layout:
+        bit31:bit8	-> reserved (RO)
+		bit7:bit0	-> PID3	 	(RW)
+    @Function:
+		Can be used by software to identify the presence of this peripheral
+*/
+#define UART_UARTPID3_OFFSET  	(0xFEC)
+#define UARTPID3_R_UART0		(*(volatile uint32_t*)(UART_UART0_BASE + UART_UARTPID3_OFFSET))
+#define UARTPID3_R_UART1  		(*(volatile uint32_t*)(UART_UART1_BASE + UART_UARTPID3_OFFSET))
+#define UARTPID3_R_UART2  		(*(volatile uint32_t*)(UART_UART2_BASE + UART_UARTPID3_OFFSET))
+#define UARTPID3_R_UART3  		(*(volatile uint32_t*)(UART_UART3_BASE + UART_UARTPID3_OFFSET))
+#define UARTPID3_R_UART4  		(*(volatile uint32_t*)(UART_UART4_BASE + UART_UARTPID3_OFFSET))
+#define UARTPID3_R_UART5  		(*(volatile uint32_t*)(UART_UART5_BASE + UART_UARTPID3_OFFSET))
+#define UARTPID3_R_UART6  		(*(volatile uint32_t*)(UART_UART6_BASE + UART_UARTPID3_OFFSET))
+#define UARTPID3_R_UART7  		(*(volatile uint32_t*)(UART_UART7_BASE + UART_UARTPID3_OFFSET))
+
+
+/**
+    @Name: UART PrimeCell Identification 0 Register
+    @Layout:
+        bit31:bit8	-> reserved (RO)
+		bit7:bit0	-> CID0	 	(RW)
+    @Function:
+		Can be used by software to identify the presence of this peripheral
+*/
+#define UART_UARTCID0_OFFSET  	(0xFF0)
+#define UARTCID0_R_UART0		(*(volatile uint32_t*)(UART_UART0_BASE + UART_UARTCID0_OFFSET))
+#define UARTCID0_R_UART1  		(*(volatile uint32_t*)(UART_UART1_BASE + UART_UARTCID0_OFFSET))
+#define UARTCID0_R_UART2  		(*(volatile uint32_t*)(UART_UART2_BASE + UART_UARTCID0_OFFSET))
+#define UARTCID0_R_UART3  		(*(volatile uint32_t*)(UART_UART3_BASE + UART_UARTCID0_OFFSET))
+#define UARTCID0_R_UART4  		(*(volatile uint32_t*)(UART_UART4_BASE + UART_UARTCID0_OFFSET))
+#define UARTCID0_R_UART5  		(*(volatile uint32_t*)(UART_UART5_BASE + UART_UARTCID0_OFFSET))
+#define UARTCID0_R_UART6  		(*(volatile uint32_t*)(UART_UART6_BASE + UART_UARTCID0_OFFSET))
+#define UARTCID0_R_UART7  		(*(volatile uint32_t*)(UART_UART7_BASE + UART_UARTCID0_OFFSET))
+
+
+/**
+    @Name: UART PrimeCell Identification 1 Register
+    @Layout:
+        bit31:bit8	-> reserved (RO)
+		bit7:bit0	-> CID1	 	(RW)
+    @Function:
+		Can be used by software to identify the presence of this peripheral
+*/
+#define UART_UARTCID1_OFFSET  	(0xFF4)
+#define UARTCID1_R_UART0		(*(volatile uint32_t*)(UART_UART0_BASE + UART_UARTCID1_OFFSET))
+#define UARTCID1_R_UART1  		(*(volatile uint32_t*)(UART_UART1_BASE + UART_UARTCID1_OFFSET))
+#define UARTCID1_R_UART2  		(*(volatile uint32_t*)(UART_UART2_BASE + UART_UARTCID1_OFFSET))
+#define UARTCID1_R_UART3  		(*(volatile uint32_t*)(UART_UART3_BASE + UART_UARTCID1_OFFSET))
+#define UARTCID1_R_UART4  		(*(volatile uint32_t*)(UART_UART4_BASE + UART_UARTCID1_OFFSET))
+#define UARTCID1_R_UART5  		(*(volatile uint32_t*)(UART_UART5_BASE + UART_UARTCID1_OFFSET))
+#define UARTCID1_R_UART6  		(*(volatile uint32_t*)(UART_UART6_BASE + UART_UARTCID1_OFFSET))
+#define UARTCID1_R_UART7  		(*(volatile uint32_t*)(UART_UART7_BASE + UART_UARTCID1_OFFSET))
+
+
+/**
+    @Name: UART PrimeCell Identification 2 Register
+    @Layout:
+        bit31:bit8	-> reserved (RO)
+		bit7:bit0	-> CID2	 	(RW)
+    @Function:
+		Can be used by software to identify the presence of this peripheral
+*/
+#define UART_UARTCID2_OFFSET  	(0xFF8)
+#define UARTCID2_R_UART0		(*(volatile uint32_t*)(UART_UART0_BASE + UART_UARTCID2_OFFSET))
+#define UARTCID2_R_UART1  		(*(volatile uint32_t*)(UART_UART1_BASE + UART_UARTCID2_OFFSET))
+#define UARTCID2_R_UART2  		(*(volatile uint32_t*)(UART_UART2_BASE + UART_UARTCID2_OFFSET))
+#define UARTCID2_R_UART3  		(*(volatile uint32_t*)(UART_UART3_BASE + UART_UARTCID2_OFFSET))
+#define UARTCID2_R_UART4  		(*(volatile uint32_t*)(UART_UART4_BASE + UART_UARTCID2_OFFSET))
+#define UARTCID2_R_UART5  		(*(volatile uint32_t*)(UART_UART5_BASE + UART_UARTCID2_OFFSET))
+#define UARTCID2_R_UART6  		(*(volatile uint32_t*)(UART_UART6_BASE + UART_UARTCID2_OFFSET))
+#define UARTCID2_R_UART7  		(*(volatile uint32_t*)(UART_UART7_BASE + UART_UARTCID2_OFFSET))
+
+
+/**
+    @Name: UART PrimeCell Identification 3 Register
+    @Layout:
+        bit31:bit8	-> reserved (RO)
+		bit7:bit0	-> CID3	 	(RW)
+    @Function:
+		Can be used by software to identify the presence of this peripheral
+*/
+#define UART_UARTCID3_OFFSET  	(0xFFC)
+#define UARTCID3_R_UART0		(*(volatile uint32_t*)(UART_UART0_BASE + UART_UARTCID3_OFFSET))
+#define UARTCID3_R_UART1  		(*(volatile uint32_t*)(UART_UART1_BASE + UART_UARTCID3_OFFSET))
+#define UARTCID3_R_UART2  		(*(volatile uint32_t*)(UART_UART2_BASE + UART_UARTCID3_OFFSET))
+#define UARTCID3_R_UART3  		(*(volatile uint32_t*)(UART_UART3_BASE + UART_UARTCID3_OFFSET))
+#define UARTCID3_R_UART4  		(*(volatile uint32_t*)(UART_UART4_BASE + UART_UARTCID3_OFFSET))
+#define UARTCID3_R_UART5  		(*(volatile uint32_t*)(UART_UART5_BASE + UART_UARTCID3_OFFSET))
+#define UARTCID3_R_UART6  		(*(volatile uint32_t*)(UART_UART6_BASE + UART_UARTCID3_OFFSET))
+#define UARTCID3_R_UART7  		(*(volatile uint32_t*)(UART_UART7_BASE + UART_UARTCID3_OFFSET))
 
 
 /*----------UART END----------*/
