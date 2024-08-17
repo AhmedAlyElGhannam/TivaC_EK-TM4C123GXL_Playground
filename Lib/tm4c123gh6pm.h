@@ -438,7 +438,7 @@
 		bit7:bit4   -> Port MUX Control 1 --- Controls GPIO Pin 1 Configuration (RW)
 		bit3:bit0   -> Port MUX Control 0 --- Controls GPIO Pin 0 Configuration (RW)
 	@Value:
-		According to Table 10-11 in Datasheet
+		According to Table 10-11 in Datasheet (used to specify alternate pin function)
 */
 #define GPIO_PCTL_OFFSET			(0x52C)
 #define GPIOPCTL_R_PORTA			(*(volatile uint32_t*)(GPIO_PORTA_BASE + GPIO_PCTL_OFFSET))
@@ -708,14 +708,14 @@
          bit1       -> Port B    (RW)
          bit0       -> Port A    (RW)
      @Function:
-         Writing 1 -> Port of Corresponding Bit has its Clock Enabled in Run Mode
-         Writing 0 -> Port of Corresponding Bit is Disabled ###
+         Writing 1 -> Port Corresponding to Bit has its Clock Enabled in Run Mode
+         Writing 0 -> Port Corresponding to Bit is Disabled ###
  */
 #define SYSCTL_RCGCGPIO_OFFSET  (0x608)
 #define RCGCGPIO_R  (*(volatile uint32_t*)(SYSCTL_BASE + SYSCTL_RCGCGPIO_OFFSET))
 
 
- /**
+/**
      @Name: GPIO High-Performance Bus Control Register
      @Layout:
          bit31:bit6 -> reserved  (RO)
@@ -726,11 +726,31 @@
          bit1       -> Port B    (RW)
          bit0       -> Port A    (RW)
      @Function:
-         Writing 1 -> Port of Corresponding Bit has AHB Enabled
-         Writing 0 -> Port of Corresponding Bit has APB Enabled
+         Writing 1 -> Port Corresponding to Bit has AHB Enabled
+         Writing 0 -> Port Corresponding to Bit has APB Enabled
  */
 #define SYSCTL_GPIOHBCTL_OFFSET  (0x06C)
-#define GPIOHBCTL_R  (*(volatile uint32_t*)(SYSCTL_BASE + SYSCTL_RCGCGPIO_OFFSET))
+#define GPIOHBCTL_R  (*(volatile uint32_t*)(SYSCTL_BASE + SYSCTL_GPIOHBCTL_OFFSET))
+
+
+/**
+     @Name: Universal Asynchronous Receiver/Transmitter Run Mode Clock Gating Control Register
+     @Layout:
+         bit31:bit8 -> reserved  	   (RO)
+		 bit7       -> UART Module 7   (RW)
+         bit6       -> UART Module 6   (RW)
+         bit5       -> UART Module 5   (RW)
+         bit4       -> UART Module 4   (RW)
+         bit3       -> UART Module 3   (RW)
+         bit2       -> UART Module 2   (RW)
+         bit1       -> UART Module 1   (RW)
+         bit0       -> UART Module 0   (RW)
+     @Function:
+         Writing 1 -> UART Module Corresponding to Bit is Provided with a Clock and is Enabled
+         Writing 0 -> UART Module Corresponding to Bit is Disabled
+ */
+#define SYSCTL_RCGCUART_OFFSET  (0x618)
+#define RCGCUART_R  (*(volatile uint32_t*)(SYSCTL_BASE + SYSCTL_RCGCUART_OFFSET))
 
 
 /*----------SYSCTL END----------*/

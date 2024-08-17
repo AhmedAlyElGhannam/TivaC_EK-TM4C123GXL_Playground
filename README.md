@@ -16,7 +16,7 @@ I want to document this for future reference since I will probably forget how to
 ## Using GPIO
 1. Enable gpio port clock via the function `SYSCTL_gpio_port_clk_config(_port_index, _config);
 ` located in `sysctl.h`. the first argument is one of the options specified in `enum GPIO_PortIndex` in `gpio.h` and the second argument is either `ENABLE` or `DISABLE` as specified in the defined enum located in `std_types.h`.
-2. (Optional) Enable AHB bus for a gpio port via the function `SYSCTL_gpio_port_bus_config(PORTF, ENABLE);`. Note that **there must be a delay after this action before configuring gpio registers ##VIMP**
+2. (Optional) Enable AHB bus for a gpio port via the function `SYSCTL_gpio_port_bus_config(PORTF, ENABLE);` **AFTER SETTING THE `GPIO_PORT_BUS` MACRO in config.h**. Note that **there must be a delay after this action before configuring gpio registers ##VIMP**
 3. Define a pin struct like this: `struct GPIO_pin pin_red_led;`.
 4. Initialize the pin defined in step 2 by giving is the **address** of the struct, the port index, and pin index. `GPIO_pin_init(&pin_red_led, PORTF, PIN1);`
 5. For each of the gpio pin configurations, there is a function to configure it:

@@ -1097,27 +1097,21 @@ sint16_t GPIO_pin_digital_read(struct GPIO_pin* _pin)
 	{
 		case PORTA:
 			return (GET_BIT(GPIODATA_R_PORTA, _pin->pin_index));
-		break;
 		
 		case PORTB:
 			return (GET_BIT(GPIODATA_R_PORTB, _pin->pin_index));
-		break;
 		
 		case PORTC:
 			return (GET_BIT(GPIODATA_R_PORTC, _pin->pin_index));
-		break;
 		
 		case PORTD:
 			return (GET_BIT(GPIODATA_R_PORTD, _pin->pin_index));
-		break;
 		
 		case PORTE:
 			return (GET_BIT(GPIODATA_R_PORTE, _pin->pin_index));
-		break;
 		
 		case PORTF:
 			return (GET_BIT(GPIODATA_R_PORTF, _pin->pin_index));
-		break;
 	}
 
 	return -EIO;
