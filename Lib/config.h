@@ -3,6 +3,6 @@
 
 #define APB_BUS		1	// Advanced Peripheral Bus
 #define AHB_BUS		2   // Advanced High Performance Bus
-#define GPIO_PORT_BUS	APB_BUS // choose AHB_BUS once its enable functionality is implemented
+#define GPIO_PORT_BUS	APB_BUS // for base address configuration
 
 #endif

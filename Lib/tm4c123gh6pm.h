@@ -697,8 +697,8 @@
 // base address for system control module
 #define SYSCTL_BASE    (0x400FE000)
 
- /**
-     @Name: General-Purpose Input/Output Run Mode Clock Gating Control
+/**
+     @Name: General-Purpose Input/Output Run Mode Clock Gating Control Register
      @Layout:
          bit31:bit6 -> reserved  (RO)
          bit5       -> Port F    (RW)
@@ -713,6 +713,24 @@
  */
 #define SYSCTL_RCGCGPIO_OFFSET  (0x608)
 #define RCGCGPIO_R  (*(volatile uint32_t*)(SYSCTL_BASE + SYSCTL_RCGCGPIO_OFFSET))
+
+
+ /**
+     @Name: GPIO High-Performance Bus Control Register
+     @Layout:
+         bit31:bit6 -> reserved  (RO)
+         bit5       -> Port F    (RW)
+         bit4       -> Port E    (RW)
+         bit3       -> Port D    (RW)
+         bit2       -> Port C    (RW)
+         bit1       -> Port B    (RW)
+         bit0       -> Port A    (RW)
+     @Function:
+         Writing 1 -> Port of Corresponding Bit has AHB Enabled
+         Writing 0 -> Port of Corresponding Bit has APB Enabled
+ */
+#define SYSCTL_GPIOHBCTL_OFFSET  (0x06C)
+#define GPIOHBCTL_R  (*(volatile uint32_t*)(SYSCTL_BASE + SYSCTL_RCGCGPIO_OFFSET))
 
 
 /*----------SYSCTL END----------*/
