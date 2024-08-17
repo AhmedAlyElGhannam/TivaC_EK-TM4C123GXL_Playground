@@ -6,7 +6,6 @@
 #include "status.h"
 #include "bit_op.h"
 #include "tm4c123gh6pm.h"
-#include "GPIO/gpio.h"
 
 enum SYSCTL_GPIOPortClkBit
 {

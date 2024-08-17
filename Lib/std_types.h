@@ -36,6 +36,28 @@ enum FeatureState
 	ENABLE = 1
 };
 
+enum PinIndex
+{
+    PIN0 = 0,
+    PIN1 = 1,
+    PIN2 = 2,
+    PIN3 = 3,
+    PIN4 = 4,
+    PIN5 = 5,
+    PIN6 = 6,
+    PIN7 = 7
+};
+
+enum PortIndex
+{
+    PORTA = 0,
+    PORTB = 1,
+    PORTC = 2,
+    PORTD = 3,
+    PORTE = 4,
+    PORTF = 5
+};
+
 #define NULL ((void*)0)
 
 #endif

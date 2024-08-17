@@ -755,4 +755,295 @@
 
 /*----------SYSCTL END----------*/
 
+
+
+/*----------UART START----------*/
+// defining base addresses for UART modules
+#define UART_UART0_BASE		(0x4000C000)
+#define UART_UART1_BASE		(0x4000D000)
+#define UART_UART2_BASE		(0x4000E000)
+#define UART_UART3_BASE		(0x4000F000)
+#define UART_UART4_BASE		(0x40010000)
+#define UART_UART5_BASE		(0x40011000)
+#define UART_UART6_BASE		(0x40012000)
+#define UART_UART7_BASE		(0x40013000)
+
+
+/**
+    @Name: UART Data Register
+    @Layout:
+         bit31:bit12 -> reserved  	    (RO)
+		 bit11       -> Overrun Error   (RO)  
+         bit10       -> Break Error     (RO)  
+         bit9        -> Parity Error    (RO)  
+         bit8        -> Framing Error   (RO)  
+		 bit7:bit0   -> Tx/Rx Data      (RW)
+    @Function:
+		OE == 0 ? No data has been lost due to a FIFO overrun : New data was received when the FIFO was full, resulting in data loss
+	    BE == 0 ? No break condition has occurred :  A break condition has been detected, indicating that the receive data input was held Lowfor longer than a full-word transmission time (defined as start, data, parity, and stop bits)
+	    PE == 0 ? No parity error has occurred : The parity of the received data character does not match the parity defined by bits 2 and 7 of the UARTLCRH register
+		FE == 0 ? No framing error has occurred : The received character does not have a valid stop bit (a valid stop bit is 1)
+	@Note:
+		The Error flag bits here are tied to the data being written/read, more interactions can be done with error bits with the next registers
+ */
+#define UART_UARTDR_OFFSET  (0x000)
+#define UARTDR_R_UART0	(*(volatile uint32_t*)(UART_UART0_BASE + UART_UARTDR_OFFSET))
+#define UARTDR_R_UART1  (*(volatile uint32_t*)(UART_UART1_BASE + UART_UARTDR_OFFSET))
+#define UARTDR_R_UART2  (*(volatile uint32_t*)(UART_UART2_BASE + UART_UARTDR_OFFSET))
+#define UARTDR_R_UART3  (*(volatile uint32_t*)(UART_UART3_BASE + UART_UARTDR_OFFSET))
+#define UARTDR_R_UART4  (*(volatile uint32_t*)(UART_UART4_BASE + UART_UARTDR_OFFSET))
+#define UARTDR_R_UART5  (*(volatile uint32_t*)(UART_UART5_BASE + UART_UARTDR_OFFSET))
+#define UARTDR_R_UART6  (*(volatile uint32_t*)(UART_UART6_BASE + UART_UARTDR_OFFSET))
+#define UARTDR_R_UART7  (*(volatile uint32_t*)(UART_UART7_BASE + UART_UARTDR_OFFSET))
+
+
+/**
+    @Name: UART Receive Status/Error Clear Register
+    @Layout (Receive Status (RO)):
+         bit31:bit4 -> reserved  	   (RO)
+		 bit3       -> Overrun Error   (RO)  
+         bit2       -> Break Error     (RO)  
+         bit1       -> Parity Error    (RO)  
+         bit0       -> Framing Error   (RO)  
+	@Layout (Error Clear (WO)):
+         bit31:bit8 -> reserved  	   (RO)
+		 bit7:bit0  -> DATA 		   (WO)
+    @Function:
+		Writing 1 or 0 -> Clears All 4 Error Flags 
+*/
+#define UART_UARTRSR_UARTECR_OFFSET  	(0x004)
+#define UARTRSR_UARTECR_R_UART0			(*(volatile uint32_t*)(UART_UART0_BASE + UART_UARTRSR_UARTECR_OFFSET))
+#define UARTRSR_UARTECR_R_UART1  		(*(volatile uint32_t*)(UART_UART1_BASE + UART_UARTRSR_UARTECR_OFFSET))
+#define UARTRSR_UARTECR_R_UART2  		(*(volatile uint32_t*)(UART_UART2_BASE + UART_UARTRSR_UARTECR_OFFSET))
+#define UARTRSR_UARTECR_R_UART3  		(*(volatile uint32_t*)(UART_UART3_BASE + UART_UARTRSR_UARTECR_OFFSET))
+#define UARTRSR_UARTECR_R_UART4  		(*(volatile uint32_t*)(UART_UART4_BASE + UART_UARTRSR_UARTECR_OFFSET))
+#define UARTRSR_UARTECR_R_UART5  		(*(volatile uint32_t*)(UART_UART5_BASE + UART_UARTRSR_UARTECR_OFFSET))
+#define UARTRSR_UARTECR_R_UART6  		(*(volatile uint32_t*)(UART_UART6_BASE + UART_UARTRSR_UARTECR_OFFSET))
+#define UARTRSR_UARTECR_R_UART7  		(*(volatile uint32_t*)(UART_UART7_BASE + UART_UARTRSR_UARTECR_OFFSET))
+
+
+/**
+    @Name: UART Flag Register
+    @Layout:
+        bit31:bit8 -> reserved 	(RO)
+		bit7       -> TXFE   	(RO)  
+        bit6       -> RXFF     	(RO)  
+        bit5       -> TXFF    	(RO)  
+        bit4       -> RXFE   	(RO) 
+		bit3       -> BUSY		(RO)
+		bit2:1     -> reserved	(RO)
+		bit0       -> CTS		(RO)
+    @Function:
+		TXFE (UART Transmit FIFO Empty) -> = 0 Has data to transmit (full): = 1 if FEN is 0 the transmit holding register is empty and if FEN is 1 the transmit FIFO is empty 
+		RXFF (UART Receive FIFO Full) -> = 0 Rx can receive data (empty) : = 1 if FEN is 0 the receive holding register is full and if FEN is 1 the transmit FIFO is full
+		TXFF (UART Transmit FIFO Empty) -> = 0 Has data to transmit (empty): = 1 if FEN is 0 the transmit holding register is empty and if FEN is 1 the transmit FIFO is empty 
+		RXFE (UART Receive FIFO Empty) -> = 0 Receiver is full : = 1 if FEN is 0 the receive holding register is empty and if FEN is 1 the receive FIFO is empty
+		BUSY (UART BUSY) -> = 0 uart is not busy : = 1 UART is busy transmitting data. This bit remains set until the complete byte, including all stop bits, has been sent from the shift register
+		CTS (Clear To Send) -> = 0 connected device is NOT ready to receive data : = 1 connected device is ready to receive data 
+*/
+#define UART_UARTFR_OFFSET  	(0x018)
+#define UARTFR_R_UART0			(*(volatile uint32_t*)(UART_UART0_BASE + UART_UARTFR_OFFSET))
+#define UARTFR_R_UART1  		(*(volatile uint32_t*)(UART_UART1_BASE + UART_UARTFR_OFFSET))
+#define UARTFR_R_UART2  		(*(volatile uint32_t*)(UART_UART2_BASE + UART_UARTFR_OFFSET))
+#define UARTFR_R_UART3  		(*(volatile uint32_t*)(UART_UART3_BASE + UART_UARTFR_OFFSET))
+#define UARTFR_R_UART4  		(*(volatile uint32_t*)(UART_UART4_BASE + UART_UARTFR_OFFSET))
+#define UARTFR_R_UART5  		(*(volatile uint32_t*)(UART_UART5_BASE + UART_UARTFR_OFFSET))
+#define UARTFR_R_UART6  		(*(volatile uint32_t*)(UART_UART6_BASE + UART_UARTFR_OFFSET))
+#define UARTFR_R_UART7  		(*(volatile uint32_t*)(UART_UART7_BASE + UART_UARTFR_OFFSET))
+
+
+/**
+    @Name: UART IrDA Low-Poer Register Register
+    @Layout:
+        bit31:bit8 -> reserved 		(RO)
+		bit7:bit0  -> ILPDVSR   	(RW)
+    @Function:
+		This field contains the 8-bit low-power divisor value
+*/
+#define UART_UARTILPR_OFFSET  	(0x020)
+#define UARTILPR_R_UART0		(*(volatile uint32_t*)(UART_UART0_BASE + UART_UARTILPR_OFFSET))
+#define UARTILPR_R_UART1  		(*(volatile uint32_t*)(UART_UART1_BASE + UART_UARTILPR_OFFSET))
+#define UARTILPR_R_UART2  		(*(volatile uint32_t*)(UART_UART2_BASE + UART_UARTILPR_OFFSET))
+#define UARTILPR_R_UART3  		(*(volatile uint32_t*)(UART_UART3_BASE + UART_UARTILPR_OFFSET))
+#define UARTILPR_R_UART4  		(*(volatile uint32_t*)(UART_UART4_BASE + UART_UARTILPR_OFFSET))
+#define UARTILPR_R_UART5  		(*(volatile uint32_t*)(UART_UART5_BASE + UART_UARTILPR_OFFSET))
+#define UARTILPR_R_UART6  		(*(volatile uint32_t*)(UART_UART6_BASE + UART_UARTILPR_OFFSET))
+#define UARTILPR_R_UART7  		(*(volatile uint32_t*)(UART_UART7_BASE + UART_UARTILPR_OFFSET))
+
+
+/**
+    @Name: UART Integer Baud-Rate Divisor Register
+    @Layout:
+        bit31:bit16 -> reserved 	(RO)
+		bit15:bit0  -> DIVINT   	(RW)
+    @Function:
+		 Integer Baud-Rate Divisor
+*/
+#define UART_UARTIBRD_OFFSET  	(0x024)
+#define UARTIBRD_R_UART0		(*(volatile uint32_t*)(UART_UART0_BASE + UART_UARTIBRD_OFFSET))
+#define UARTIBRD_R_UART1  		(*(volatile uint32_t*)(UART_UART1_BASE + UART_UARTIBRD_OFFSET))
+#define UARTIBRD_R_UART2  		(*(volatile uint32_t*)(UART_UART2_BASE + UART_UARTIBRD_OFFSET))
+#define UARTIBRD_R_UART3  		(*(volatile uint32_t*)(UART_UART3_BASE + UART_UARTIBRD_OFFSET))
+#define UARTIBRD_R_UART4  		(*(volatile uint32_t*)(UART_UART4_BASE + UART_UARTIBRD_OFFSET))
+#define UARTIBRD_R_UART5  		(*(volatile uint32_t*)(UART_UART5_BASE + UART_UARTIBRD_OFFSET))
+#define UARTIBRD_R_UART6  		(*(volatile uint32_t*)(UART_UART6_BASE + UART_UARTIBRD_OFFSET))
+#define UARTIBRD_R_UART7  		(*(volatile uint32_t*)(UART_UART7_BASE + UART_UARTIBRD_OFFSET))
+
+
+/**
+    @Name: UART Fractional Baud-Rate Divisor Register
+    @Layout:
+        bit31:bit6 -> reserved 		(RO)
+		bit5:bit0  -> DIVFRAC   	(RW)
+    @Function:
+		 Fractional Baud-Rate Divisor
+*/
+#define UART_UARTFBRD_OFFSET  	(0x028)
+#define UARTFBRD_R_UART0		(*(volatile uint32_t*)(UART_UART0_BASE + UART_UARTFBRD_OFFSET))
+#define UARTFBRD_R_UART1  		(*(volatile uint32_t*)(UART_UART1_BASE + UART_UARTFBRD_OFFSET))
+#define UARTFBRD_R_UART2  		(*(volatile uint32_t*)(UART_UART2_BASE + UART_UARTFBRD_OFFSET))
+#define UARTFBRD_R_UART3  		(*(volatile uint32_t*)(UART_UART3_BASE + UART_UARTFBRD_OFFSET))
+#define UARTFBRD_R_UART4  		(*(volatile uint32_t*)(UART_UART4_BASE + UART_UARTFBRD_OFFSET))
+#define UARTFBRD_R_UART5  		(*(volatile uint32_t*)(UART_UART5_BASE + UART_UARTFBRD_OFFSET))
+#define UARTFBRD_R_UART6  		(*(volatile uint32_t*)(UART_UART6_BASE + UART_UARTFBRD_OFFSET))
+#define UARTFBRD_R_UART7  		(*(volatile uint32_t*)(UART_UART7_BASE + UART_UARTFBRD_OFFSET))
+
+
+/**
+    @Name: UART Line Control Register
+    @Layout:
+        bit31:bit8 -> reserved 	(RO)
+		bit7	   -> SPS   	(RW)
+		bit6:bit5  -> WLEN   	(RW)
+		bit4	   -> FEN   	(RW)
+		bit3	   -> STP2   	(RW)
+		bit2	   -> EPS   	(RW)
+		bit1	   -> PEN   	(RW)
+		bit0	   -> BRK   	(RW)
+    @Function:
+		SPS (Stick Parity Select) -> = 0 to disable && other values dependent on other bits specified in datasheet
+		WLEN (Word Length for Sent/Received Data) -> (5-8 bits)
+		FEN (Enable FIFO) -> = 0 FIFOs are disabled (Character mode). The FIFOs become 1-byte-deep holding registers : = 1 transmit and receive FIFO buffers are enabled (FIFO mode)
+		STP2 (Two Stop Bits Select) -> = 0 for one stop bit : = 1 for two stop bits
+		EPS (Even Parity Select) -> = 0 for odd parity : = 1 for even parity
+		PEN (Parity Enable) -> = 0 to disable parity : = 1 to enable parity
+		BRK (UART Send Break) -> = 0 for normal use : *something!*
+	@Note:
+		This control register is used to configure *data format*
+*/
+#define UART_UARTLCRH_OFFSET  	(0x02C)
+#define UARTLCRH_R_UART0		(*(volatile uint32_t*)(UART_UART0_BASE + UART_UARTLCRH_OFFSET))
+#define UARTLCRH_R_UART1  		(*(volatile uint32_t*)(UART_UART1_BASE + UART_UARTLCRH_OFFSET))
+#define UARTLCRH_R_UART2  		(*(volatile uint32_t*)(UART_UART2_BASE + UART_UARTLCRH_OFFSET))
+#define UARTLCRH_R_UART3  		(*(volatile uint32_t*)(UART_UART3_BASE + UART_UARTLCRH_OFFSET))
+#define UARTLCRH_R_UART4  		(*(volatile uint32_t*)(UART_UART4_BASE + UART_UARTLCRH_OFFSET))
+#define UARTLCRH_R_UART5  		(*(volatile uint32_t*)(UART_UART5_BASE + UART_UARTLCRH_OFFSET))
+#define UARTLCRH_R_UART6  		(*(volatile uint32_t*)(UART_UART6_BASE + UART_UARTLCRH_OFFSET))
+#define UARTLCRH_R_UART7  		(*(volatile uint32_t*)(UART_UART7_BASE + UART_UARTLCRH_OFFSET))
+
+
+/**
+    @Name: UART Control Register
+    @Layout:
+        bit31:bit16	-> reserved (RO)
+		bit15	   	-> CTSEN   	(RW)
+		bit14	   	-> RTSEN   	(RW)
+		bit13:bit12	-> reserved (RO)
+		bit11	   	-> RTS   	(RW)
+		bit10	   	-> reserved (RO)
+		bit9	   	-> RXE   	(RW)
+		bit8	   	-> TXE   	(RW)
+		bit7	   	-> LBE   	(RW)
+		bit6	   	-> reserved (RO)
+		bit5	   	-> HSE   	(RW)
+		bit4	   	-> EOT   	(RW)
+		bit3	   	-> SMART   	(RW)
+		bit2	   	-> SIRLP   	(RW)
+		bit1	   	-> SIREN   	(RW)
+		bit0	   	-> UARTEN   (RW)
+    @Function:
+		CTSEN (Enable Clear To Send) -> = 0 to disable CTS : = 1 to enable CTS
+		RTSEN (Enable Request To Send) -> = 0 to disable RTS : = 1 to enable RTS
+		RTS (Request To Send)
+		RXE (UART Receive Enable) -> = 0 to disable receive : = 1 to enable receive
+		TXE (UART Transmit Enable) -> = 0 to disable transmit : = 1 to enable transmit
+		LBE (UART Loopback Enable) -> = 0 for normal operation : = 1 for feeding  UnTx path through UnRx path
+		HSE (High-Speed Enable) -> = 0 for div by 16 clock : = 1 for div by 8 clock
+		EOT (End of Transmission) -> = 0 The TXRIS bit is set when the transmit FIFO condition specified in UARTIFLS is met : The TXRIS bit is set only after all transmitted data, including stop bits, have cleared the serializer
+		SMART (ISO 7816 Smart Card Support) -> = 0 for normal operation : = 1 for Smart Card mode of operation
+		SIRLP (UART SIR Low-Power Mode) -> = 0 Low-level bits are transmitted as an active High pulse with a width of 3/16th of the bit period : UART operates in SIR Low-Power mode. Low-level bits are transmitted with a pulse width which is 3 times the period of the IrLPBaud16 input signal, regardless of the selected bit rate
+		SIREN (UART SIR Enable) -> = 0 for normal operation : = 1 IrDA SIR block is enabled, and the UART will transmit and receive data using SIR protocol.
+		UARTEN (UART Enable) -> = 0 to disable UART : = 1 to enable UART
+	@Note:
+		This control register is used to configure *the way the UART module should operate*
+*/
+#define UART_UARTCTL_OFFSET  	(0x030)
+#define UARTCTL_R_UART0			(*(volatile uint32_t*)(UART_UART0_BASE + UART_UARTCTL_OFFSET))
+#define UARTCTL_R_UART1  		(*(volatile uint32_t*)(UART_UART1_BASE + UART_UARTCTL_OFFSET))
+#define UARTCTL_R_UART2  		(*(volatile uint32_t*)(UART_UART2_BASE + UART_UARTCTL_OFFSET))
+#define UARTCTL_R_UART3  		(*(volatile uint32_t*)(UART_UART3_BASE + UART_UARTCTL_OFFSET))
+#define UARTCTL_R_UART4  		(*(volatile uint32_t*)(UART_UART4_BASE + UART_UARTCTL_OFFSET))
+#define UARTCTL_R_UART5  		(*(volatile uint32_t*)(UART_UART5_BASE + UART_UARTCTL_OFFSET))
+#define UARTCTL_R_UART6  		(*(volatile uint32_t*)(UART_UART6_BASE + UART_UARTCTL_OFFSET))
+#define UARTCTL_R_UART7  		(*(volatile uint32_t*)(UART_UART7_BASE + UART_UARTCTL_OFFSET))
+
+
+
+/**
+    @Name: UART Interrupt FIFO Level Select Register
+    @Layout:
+        bit31:bit6	-> reserved (RO)
+		bit5:bit3	-> RXIFLSEL (RW)
+		bit2:bit0	-> TXIFLSEL (RW)
+    @Function:
+		RXIFLSEL: 0x00=>Rx FIFO 1/8 full, 0x01=>Rx FIFO 1/4 full, 0x02=>Rx FIFO 1/2 full (default), 0x03=>Rx FIFO 3/4 full, 0x04=>Rx FIFO 7/8 full
+		TXIFLSEL: 0x00=>Tx FIFO 1/8 full, 0x01=>Tx FIFO 1/4 full, 0x02=>Tx FIFO 1/2 full (default), 0x03=>Tx FIFO 3/4 full, 0x04=>Tx FIFO 7/8 full
+*/
+#define UART_UARTIFLS_OFFSET  	(0x034)
+#define UARTIFLS_R_UART0		(*(volatile uint32_t*)(UART_UART0_BASE + UART_UARTIFLS_OFFSET))
+#define UARTIFLS_R_UART1  		(*(volatile uint32_t*)(UART_UART1_BASE + UART_UARTIFLS_OFFSET))
+#define UARTIFLS_R_UART2  		(*(volatile uint32_t*)(UART_UART2_BASE + UART_UARTIFLS_OFFSET))
+#define UARTIFLS_R_UART3  		(*(volatile uint32_t*)(UART_UART3_BASE + UART_UARTIFLS_OFFSET))
+#define UARTIFLS_R_UART4  		(*(volatile uint32_t*)(UART_UART4_BASE + UART_UARTIFLS_OFFSET))
+#define UARTIFLS_R_UART5  		(*(volatile uint32_t*)(UART_UART5_BASE + UART_UARTIFLS_OFFSET))
+#define UARTIFLS_R_UART6  		(*(volatile uint32_t*)(UART_UART6_BASE + UART_UARTIFLS_OFFSET))
+#define UARTIFLS_R_UART7  		(*(volatile uint32_t*)(UART_UART7_BASE + UART_UARTIFLS_OFFSET))
+
+
+/**
+    @Name: UART Interrupt Mask Register
+    @Layout:
+        bit31:bit13	-> reserved (RO)
+		bit12	   	-> CTSEN   	(RW)
+		bit11	   	-> reserved (RW)
+		bit10    	-> reserved (RO)
+		bit11	   	-> RTS   	(RW)
+		bit10	   	-> reserved (RO)
+		bit9	   	-> RXE   	(RW)
+		bit8	   	-> TXE   	(RW)
+		bit7	   	-> LBE   	(RW)
+		bit6	   	-> reserved (RO)
+		bit5	   	-> HSE   	(RW)
+		bit4	   	-> EOT   	(RW)
+		bit3:bit2	-> reserved (RO)
+		bit1	   	-> SIREN   	(RW)
+		bit0	   	-> reserved (RO)
+    @Function:
+		RXIFLSEL: 0x00=>Rx FIFO 1/8 full, 0x01=>Rx FIFO 1/4 full, 0x02=>Rx FIFO 1/2 full (default), 0x03=>Rx FIFO 3/4 full, 0x04=>Rx FIFO 7/8 full
+		TXIFLSEL: 0x00=>Tx FIFO 1/8 full, 0x01=>Tx FIFO 1/4 full, 0x02=>Tx FIFO 1/2 full (default), 0x03=>Tx FIFO 3/4 full, 0x04=>Tx FIFO 7/8 full
+*/
+#define UART_UARTIM_OFFSET  	(0x038)
+#define UARTIM_R_UART0			(*(volatile uint32_t*)(UART_UART0_BASE + UART_UARTIM_OFFSET))
+#define UARTIM_R_UART1  		(*(volatile uint32_t*)(UART_UART1_BASE + UART_UARTIM_OFFSET))
+#define UARTIM_R_UART2  		(*(volatile uint32_t*)(UART_UART2_BASE + UART_UARTIM_OFFSET))
+#define UARTIM_R_UART3  		(*(volatile uint32_t*)(UART_UART3_BASE + UART_UARTIM_OFFSET))
+#define UARTIM_R_UART4  		(*(volatile uint32_t*)(UART_UART4_BASE + UART_UARTIM_OFFSET))
+#define UARTIM_R_UART5  		(*(volatile uint32_t*)(UART_UART5_BASE + UART_UARTIM_OFFSET))
+#define UARTIM_R_UART6  		(*(volatile uint32_t*)(UART_UART6_BASE + UART_UARTIM_OFFSET))
+#define UARTIM_R_UART7  		(*(volatile uint32_t*)(UART_UART7_BASE + UART_UARTIM_OFFSET))
+
+
+
+/*----------UART END----------*/
+
 #endif

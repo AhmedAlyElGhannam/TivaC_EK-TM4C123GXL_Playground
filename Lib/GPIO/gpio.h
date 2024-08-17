@@ -27,28 +27,6 @@ enum GPIO_PortPadConfigLock
 	LOCK = 0xFFFFFFFF // any value works
 };
 
-enum GPIO_PinIndex
-{
-	PIN0 = 0,
-    PIN1 = 1,
-    PIN2 = 2,
-    PIN3 = 3,
-    PIN4 = 4,
-    PIN5 = 5,
-    PIN6 = 6,
-    PIN7 = 7
-};
-
-enum GPIO_PortIndex
-{
-    PORTA = 0,
-    PORTB = 1,
-    PORTC = 2,
-    PORTD = 3,
-    PORTE = 4,
-	PORTF = 5
-};
-
 // PA0-7 && PB0-7 && PC0-7 && PC0-7 && PE0-5 && PF0-4
 enum GPIO_PortMaxPinCount 
 {

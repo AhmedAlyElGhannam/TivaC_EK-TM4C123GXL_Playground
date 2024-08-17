@@ -1005,31 +1005,31 @@ out:
 	return res;
 }
 
-static sint8_t GPIO_pin_interrupt_config(struct GPIO_pin* _pin)
-{
-	sint8_t res = ALL_OK;
-	
-	if (NULL == _pin)
-	{
-		res = -EINVARG;
-		goto out;
-	}
-	
-	res = GPIO_pin_interrupt_sense_trig_config(_pin, _pin->interrupt_config->sense_trig);
-	if (res < 0)
-	{
-		goto out;
-	}
-	
-	res = GPIO_pin_interrupt_mask_config(_pin, _pin->interrupt_config->mask_state);
-	if (res < 0)
-	{
-		goto out;
-	}
-	
-out:
-	return res;
-}
+//static sint8_t GPIO_pin_interrupt_config(struct GPIO_pin* _pin)
+//{
+//	sint8_t res = ALL_OK;
+//
+//	if (NULL == _pin)
+//	{
+//		res = -EINVARG;
+//		goto out;
+//	}
+//
+//	res = GPIO_pin_interrupt_sense_trig_config(_pin, _pin->interrupt_config->sense_trig);
+//	if (res < 0)
+//	{
+//		goto out;
+//	}
+//
+//	res = GPIO_pin_interrupt_mask_config(_pin, _pin->interrupt_config->mask_state);
+//	if (res < 0)
+//	{
+//		goto out;
+//	}
+//
+//out:
+//	return res;
+//}
 
 sint8_t GPIO_pin_init(struct GPIO_pin* _pin, uint8_t _port_index, uint8_t _pin_index)
 {
@@ -1286,8 +1286,6 @@ void GPIO_pin_clear_pin_interrupt(struct GPIO_pin* _pin)
 
 // gpio_pin_pad_init (with flags)
 // gpio_pin_interrupt_init (with flags)
-
-
 
 
 
