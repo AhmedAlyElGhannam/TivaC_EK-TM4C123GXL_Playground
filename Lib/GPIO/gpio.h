@@ -40,21 +40,21 @@ enum GPIO_PortMaxPinCount
 
 enum GPIO_ResistorType
 {
-	PULL_UP_RESISTOR = 5,
+	PULL_UP_RESISTOR,
 	PULL_DOWN_RESISTOR,
 	OPEN_DRAIN_RESISTOR 
 };
 
 enum GPIO_CurrentDrive
 {
-	DRIVE_CURRENT_2MA = 3,
+	DRIVE_CURRENT_2MA,
 	DRIVE_CURRENT_4MA,
 	DRIVE_CURRENT_8MA
 };
 
 enum GPIO_InterruptSense
 {
-	RISING_EDGE = 2,
+	RISING_EDGE,
 	FALLING_EDGE,
 	BOTH_EDGES,
 	HIGH_LEVEL,
@@ -76,19 +76,19 @@ typedef void(*GPIO_INTERRUPT_CALLBACK_FUNC)(void); // pointer to ISR
 // struct for gpio pad config
 struct GPIO_pad_config
 {
-	uint8_t AFSEL; 	// alternate function select
-	uint8_t DIR; 	// data direction
-	uint8_t DEN; 	// digital enable
-	uint8_t RES; 	// pull-up || pull-down || open-drain
-	uint8_t DRX; 	// 2mA || 4mA || 8mA current drive 
-	uint8_t SLR;	// slew rate (only for 8mA current drive)
+	uint8_t AFSEL   : 1; 	// alternate function select
+	uint8_t DIR     : 1; 	// data direction
+	uint8_t DEN     : 1; 	// digital enable
+	uint8_t RES     : 2; 	// pull-up || pull-down || open-drain
+	uint8_t DRX     : 2; 	// 2mA || 4mA || 8mA current drive
+	uint8_t SLR     : 1;	// slew rate (only for 8mA current drive)
 };
 
 // struct for gpio interrupt config
 struct GPIO_interrupt_config
 {
-	uint8_t sense_trig; // edge-triggered (rising/falling) || level-triggered (high/low)
-	uint8_t mask_state; // masked || not masked
+	uint8_t sense_trig : 4; // edge-triggered (rising/falling) || level-triggered (high/low)
+	uint8_t mask_state : 4; // masked || not masked
 };
 
 // struct for gpio pin
@@ -96,8 +96,8 @@ struct GPIO_pin
 {
 	struct GPIO_pad_config* pad_config; // pointer to pad config for this pin
 	struct GPIO_interrupt_config* interrupt_config; // pointer to interrupt config for this pin
-	uint8_t port_index; // index for port this pin belongs to
-	uint8_t pin_index; // index for pin
+	uint8_t port_index 	: 3; // index for port this pin belongs to
+	uint8_t pin_index 	: 3; // index for pin
 };
 
 /*---------------------------------------------*/
