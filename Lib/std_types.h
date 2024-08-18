@@ -58,6 +58,18 @@ enum PortIndex
     PORTF = 5
 };
 
+enum UARTIndex
+{
+	UART0,
+	UART1,
+	UART2,
+	UART3,
+	UART4,
+	UART5,
+	UART6,
+	UART7
+};
+
 #define NULL ((void*)0)
 
 #endif

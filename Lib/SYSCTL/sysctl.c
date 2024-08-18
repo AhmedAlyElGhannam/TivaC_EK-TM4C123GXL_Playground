@@ -85,3 +85,5 @@ sint8_t SYSCTL_uart_config(uint8_t _uart_module, uint8_t _config)
 out:
     return res;
 }
+
+RCC_R

@@ -753,6 +753,32 @@
 #define RCGCUART_R  (*(volatile uint32_t*)(SYSCTL_BASE + SYSCTL_RCGCUART_OFFSET))
 
 
+/**
+     @Name: Run-Mode Clock Configuration Register
+     @Layout:
+         bit31:bit28 -> reserved  	   (RO)
+		 bit27       -> ACG   (RW)
+		 bit26:bit23 -> SYSDIV  	   (RO)
+         bit22       -> USESYSDIV   (RW)
+         bit21       -> reserved   (RW)
+         bit20       -> USEPWMDIV   (RW)
+		 bit19:bit17 -> PWMDIV  	   (RO)
+         bit16:bit14       -> reserved   (RW)
+         bit13       -> PWRDN   (RW)
+		 bit12       -> reserved   (RO)
+		 bit11       -> BYPASS   (RW)
+		 bit10:bit6 -> XTAL  	   (RO)
+		 bit5:bit4 -> OSCSRC  	   (RO)
+		 bit3:bit1 -> reserved  	   (RO)
+         bit0       -> MOSCDIS   (RW)
+     @Function:
+         *will write it down later*
+ */
+#define SYSCTL_RCC_OFFSET  (0x060)
+#define RCC_R  (*(volatile uint32_t*)(SYSCTL_BASE + SYSCTL_RCC_OFFSET))
+
+
+
 /*----------SYSCTL END----------*/
 
 
@@ -836,7 +862,7 @@
     @Function:
 		TXFE (UART Transmit FIFO Empty) -> = 0 Has data to transmit (full): = 1 if FEN is 0 the transmit holding register is empty and if FEN is 1 the transmit FIFO is empty 
 		RXFF (UART Receive FIFO Full) -> = 0 Rx can receive data (empty) : = 1 if FEN is 0 the receive holding register is full and if FEN is 1 the transmit FIFO is full
-		TXFF (UART Transmit FIFO Empty) -> = 0 Has data to transmit (empty): = 1 if FEN is 0 the transmit holding register is empty and if FEN is 1 the transmit FIFO is empty 
+		TXFF (UART Transmit FIFO Full) -> = 0 Has data to transmit (empty): = 1 if FEN is 0 the transmit holding register is empty and if FEN is 1 the transmit FIFO is empty 
 		RXFE (UART Receive FIFO Empty) -> = 0 Receiver is full : = 1 if FEN is 0 the receive holding register is empty and if FEN is 1 the receive FIFO is empty
 		BUSY (UART BUSY) -> = 0 uart is not busy : = 1 UART is busy transmitting data. This bit remains set until the complete byte, including all stop bits, has been sent from the shift register
 		CTS (Clear To Send) -> = 0 connected device is NOT ready to receive data : = 1 connected device is ready to receive data 
@@ -853,7 +879,7 @@
 
 
 /**
-    @Name: UART IrDA Low-Poer Register Register
+    @Name: UART IrDA Low-Power Register Register
     @Layout:
         bit31:bit8 -> reserved 		(RO)
 		bit7:bit0  -> ILPDVSR   	(RW)

@@ -27,18 +27,6 @@ enum SYSCTL_GPIOPortBusBit
     PORTF_BUS_BIT = 5
 };
 
-enum SYSCTL_UARTModuleIndex
-{
-	UART0,
-	UART1,
-	UART2,
-	UART3,
-	UART4,
-	UART5,
-	UART6,
-	UART7
-};
-
 sint8_t SYSCTL_gpio_port_clk_config(uint8_t _port_index, uint8_t _config);
 sint8_t SYSCTL_gpio_port_bus_config(uint8_t _port_index, uint8_t _config);
 sint8_t SYSCTL_uart_config(uint8_t _uart_module, uint8_t _config);

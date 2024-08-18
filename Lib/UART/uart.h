@@ -32,22 +32,25 @@ typedef void(*UART_INTERRUPT_CALLBACK_FUNC)(void); // pointer to ISR
 
 #define UART_MODULE_COUNT	8
 
-enum UART_UARTIndex
-{
-	UART0,
-	UART1,
-	UART2,
-	UART3,
-	UART4,
-	UART5,
-	UART6,
-	UART7
-};
-
 enum UART_UARTPrimaryOrAlternate // for choosing pins of UART
 {
 	PRIMARY,
 	ALTERNATE
+};
+
+enum UART_UARTClockSource
+{
+	SYS_CLK = 0x00,
+	PIOSC = 0x05
+};
+
+enum UART_BaudRate
+{
+	BAUD_RATE_9600,
+	BAUD_RATE_19200,
+	BAUD_RATE_38400,
+	BAUD_RATE_57600,
+	BAUD_RATE_115200,
 };
 
 struct UART_line_control
@@ -82,32 +85,16 @@ struct UART_pins
 	struct GPIO_pin* Rx;
 };
 
-// make an array out of deez
-struct UART_module_index
-{
-	uint16_t module_port  	 : 3;
-	uint16_t module_tx 		 : 3;
-	uint16_t module_rx 		 : 3;
-};
-
 struct UART_module
 {
 	struct UART_pins* pins;
-	
-	union // anonymous union to save memory
-	{
-		struct UART_module_index* main_index;
-		struct UART_module_index* alt_index;
-	};
-	
-	struct UART_module_index* index;
-	
+		
 	struct UART_line_control* line_ctl;
 	
 	struct UART_interrupt_config* interrupt_config;
 	
-	UART_INTERRUPT_CALLBACK_FUNC uart_transmit_handler;
-	UART_INTERRUPT_CALLBACK_FUNC uart_receive_handler;
+	// UART_INTERRUPT_CALLBACK_FUNC uart_transmit_handler;
+	// UART_INTERRUPT_CALLBACK_FUNC uart_receive_handler;
 	// maybe some pointers for error handlers
 	
 	uint8_t module_index;
@@ -115,22 +102,41 @@ struct UART_module
 
 
 // uart_init
+void UART_init();
 // disable_uart
+void UART_disable();
 // enable_uart
+void UART_enable();
 // uart_clk_source
+void UART_clk_source_config();
 // set_baud_rate
+void UART_baud_rate_config();
 // line_control_config 
+void UART_line_control_config();
 // uart_control_config // there are a lot of options here
+void UART_control_config();
 // uart_interrupt_config
+void UART_interrupt_config();
 // uart_interrupt_enable/disable + isr_set?!
+void UART_interrupt_enable();
+void UART_interrupt_disable();
 // uart_dma_config
+void UART_DMA_config();
 
 // error flag checkers
+bool UART_is_causing_overrun_error();
+bool UART_is_causing_break_error();
+bool UART_is_causing_parity_error();
+bool UART_is_causing_framing_error();
 
 // uart_send_char // polling or interrupt
+void UART_send_char(); // module + char
+
 // uart_send_str // polling or interrupt
+void UART_send_str(); // uses UART_send_char() to send char
 
 // uart_receive_char // polling or interrupt
+char UART_receive_char();
 // uart_receive_str // polling or interrupt
-
+char* UART_receive_str();
 #endif
