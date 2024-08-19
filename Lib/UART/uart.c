@@ -71,6 +71,7 @@ sint8_t UART_init(struct UART_module* _uart_module, uint8_t _uart_index, uint8_t
 	switch (_uart_index)
 	{
 		case UART0:
+			_uart_module->module_port_index = PORTA;
 			GPIO_pin_init(_uart_module->pins->Tx, PORTA, PIN1); // setting Tx pin
 			GPIO_pin_init(_uart_module->pins->Rx, PORTA, PIN0);	// setting Rx	
 		break;
@@ -78,49 +79,76 @@ sint8_t UART_init(struct UART_module* _uart_module, uint8_t _uart_index, uint8_t
 		case UART1: // PRIMARY || ALTERNATE
 			if (_pin_config == PRIMARY)
 			{
+				_uart_module->module_port_index = PORTB;
 				GPIO_pin_init(_uart_module->pins->Tx, PORTB, PIN1); // setting primary Tx
 				GPIO_pin_init(_uart_module->pins->Rx, PORTB, PIN0); // setting primary Rx
 			}
 			else if (_pin_config == ALTERNATE)
 			{
+				_uart_module->module_port_index = PORTC;
 				GPIO_pin_init(_uart_module->pins->Tx, PORTC, PIN5); // setting primary Tx
 				GPIO_pin_init(_uart_module->pins->Rx, PORTC, PIN4); // setting primary Rx
 			}
 		break;
 		
 		case UART2:
+			_uart_module->module_port_index = PORTD;
 			GPIO_pin_init(_uart_module->pins->Tx, PORTD, PIN7); // setting Tx pin
 			GPIO_pin_init(_uart_module->pins->Rx, PORTD, PIN6);	// setting Rx
 		break;
 		
 		case UART3:
+			_uart_module->module_port_index = PORTC;
 			GPIO_pin_init(_uart_module->pins->Tx, PORTC, PIN7); // setting Tx pin
 			GPIO_pin_init(_uart_module->pins->Rx, PORTC, PIN6);	// setting Rx
 		break;
 		
 		case UART4: 
+			_uart_module->module_port_index = PORTC;
 			GPIO_pin_init(_uart_module->pins->Tx, PORTC, PIN5); // setting Tx pin
 			GPIO_pin_init(_uart_module->pins->Rx, PORTC, PIN4);	// setting Rx
 		break;
 		
 		case UART5:
+			_uart_module->module_port_index = PORTE;
 			GPIO_pin_init(_uart_module->pins->Tx, PORTE, PIN5); // setting Tx pin
 			GPIO_pin_init(_uart_module->pins->Rx, PORTE, PIN4);	// setting Rx
 		break;
 		
 		case UART6: 
+			_uart_module->module_port_index = PORTD;
 			GPIO_pin_init(_uart_module->pins->Tx, PORTD, PIN5); // setting Tx pin
 			GPIO_pin_init(_uart_module->pins->Rx, PORTD, PIN4);	// setting Rx
 		break;
 		
 		case UART7:
+			_uart_module->module_port_index = PORTE;
 			GPIO_pin_init(_uart_module->pins->Tx, PORTE, PIN1); // setting Tx pin
 			GPIO_pin_init(_uart_module->pins->Rx, PORTE, PIN0);	// setting Rx
 		break;
 	}
 	
-	// set gpio port control for uart module pins (will implement this function)
+	// enable gpio clk (in order to be able to configure port registers)
+	SYSCTL_gpio_port_clk_config(_uart_module->module_port_index, ENABLE);
 	
+	// enable alt func
+	GPIO_pin_AFSEL_config(_uart_module->pins->Tx, ENABLE);
+	GPIO_pin_AFSEL_config(_uart_module->pins->Rx, ENABLE);
+	
+	// digital enable
+	GPIO_pin_digital_config(_uart_module->pins->Tx, ENABLE);
+	GPIO_pin_digital_config(_uart_module->pins->Rx, ENABLE);
+	
+	// current drive
+	GPIO_pin_drive_current_config(_uart_module->pins->Tx, DRIVE_CURRENT_8MA);
+	GPIO_pin_drive_current_config(_uart_module->pins->Rx, DRIVE_CURRENT_8MA);
+	
+	// slew rate
+	GPIO_pin_slew_rate_config(_uart_module->pins->Tx, ENABLE);
+	GPIO_pin_slew_rate_config(_uart_module->pins->Rx, ENABLE);
+	
+	// set gpio port control for uart module pins
+	GPIO_port_mux_control(_uart_module->module_index, _pin_config);
 	
 	// disable uart module that was just defined (enable ONLY after config is done)
 	UART_disable(_uart_module);

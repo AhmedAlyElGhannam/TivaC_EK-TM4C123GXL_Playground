@@ -58,7 +58,7 @@ enum PortIndex
     PORTF = 5
 };
 
-enum UARTIndex
+enum CommProtocolModules
 {
 	UART0,
 	UART1,
@@ -67,7 +67,28 @@ enum UARTIndex
 	UART4,
 	UART5,
 	UART6,
-	UART7
+	UART7,
+	SSI,
+	I2C,
+	CAN
+};
+
+enum PrimaryOrAlternatePinConfig // for choosing pin layout of CommProtocolModules
+{
+	PRIMARY,
+	ALTERNATE
+};
+
+enum GPIOPortMuxControl
+{
+	PMC0,
+	PMC1,
+	PMC2,
+	PMC3,
+	PMC4,
+	PMC5,
+	PMC6,
+	PMC7
 };
 
 #define NULL ((void*)0)

@@ -10,14 +10,14 @@
 #include "GPIO/gpio.h"
 
 /**
-	Initialization & Configuration
+	Initialization
 		1. Enable UART module (sysctl function)
 		2. Enable GPIO port clock for chosen UART module (sysctl function)
 		3. Enable GPIO AFSEL in order to be able to access/configure UART (gpio function)
-		*also maybe need to set GPIO DEN (gpio function)*
+		*also maybe need to set GPIO DEN (gpio function) --- actually it turns out I do!*
 		4. Configure GPIO current drive & slew rate (gpio functions)
 		5. Configure PMCn fields in GPIOCTL to assign UART signals to appropriate pins (need to implement a GPIO function for that + Check the table at page 1351 in datasheet)
-	Using UART
+	Configuration
 		// DISABLE UART
 		1. Configure clk source
 		2. Configure Baud rate
@@ -31,12 +31,6 @@
 typedef void(*UART_INTERRUPT_CALLBACK_FUNC)(void); // pointer to ISR
 
 #define UART_MODULE_COUNT	8
-
-enum UART_UARTPrimaryOrAlternate // for choosing pins of UART
-{
-	PRIMARY,
-	ALTERNATE
-};
 
 enum UART_UARTClockSource
 {
@@ -97,7 +91,8 @@ struct UART_module
 	// UART_INTERRUPT_CALLBACK_FUNC uart_receive_handler;
 	// maybe some pointers for error handlers
 	
-	uint8_t module_index;
+	uint8_t module_index 		: 4;
+	uint8_t module_port_index  	: 4;
 };
 
 

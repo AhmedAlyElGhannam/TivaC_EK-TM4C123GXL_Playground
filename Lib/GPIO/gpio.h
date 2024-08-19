@@ -108,6 +108,8 @@ sint8_t GPIO_pin_init(struct GPIO_pin* _pin, uint8_t _port_index, uint8_t _pin_i
 
 sint8_t GPIO_pin_config_lock(struct GPIO_pin* _pin, uint32_t _lock);
 
+sint8_t GPIO_port_mux_control(uint8_t _alt_func, uint8_t _pri_or_alt_pin);
+
 sint8_t GPIO_pin_pad_config(struct GPIO_pin* _pin);
 sint8_t GPIO_pin_AFSEL_config(struct GPIO_pin* _pin, uint8_t _config);
 sint8_t GPIO_pin_direction_config(struct GPIO_pin* _pin, uint8_t _config);

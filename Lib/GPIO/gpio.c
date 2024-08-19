@@ -1281,6 +1281,88 @@ void GPIO_pin_clear_pin_interrupt(struct GPIO_pin* _pin)
 	return;
 }
 
+sint8_t GPIO_port_mux_control(uint8_t _alt_func, uint8_t _pri_or_alt_pin)
+{
+	sint8_t res = ALL_OK;
+	
+	// check for passed function flag
+	if ((_pri_or_alt_pin != PRIMARY) && (_pri_or_alt_pin != ALTERNATE))
+	{
+		res = -EINVARG;
+		goto out;
+	}
+	
+	// set fields for gpiopctl depending on passed function and flag
+	switch (_alt_func)
+	{
+		case UART0:
+			// set fields for gpiopctl
+			SET_NIB_TO_VAL(GPIOPCTL_R_PORTA, PMC0, 0x01);
+			SET_NIB_TO_VAL(GPIOPCTL_R_PORTA, PMC1, 0x01);
+		break;
+		
+		case UART1:
+			if (_pri_or_alt_pin == PRIMARY)
+			{
+				// set fields for gpiopctl
+				SET_NIB_TO_VAL(GPIOPCTL_R_PORTB, PMC0, 0x01);
+				SET_NIB_TO_VAL(GPIOPCTL_R_PORTB, PMC1, 0x01);
+			}
+			else if (_pri_or_alt_pin == ALTERNATE)
+			{
+				// set fields for gpiopctl
+				SET_NIB_TO_VAL(GPIOPCTL_R_PORTC, PMC4, 0x02);
+				SET_NIB_TO_VAL(GPIOPCTL_R_PORTC, PMC5, 0x02);
+			}
+		break;
+		
+		case UART2:
+			// set fields for gpiopctl
+			SET_NIB_TO_VAL(GPIOPCTL_R_PORTD, PMC6, 0x01);
+			SET_NIB_TO_VAL(GPIOPCTL_R_PORTD, PMC7, 0x01);
+		break;
+		
+		case UART3:
+			// set fields for gpiopctl
+			SET_NIB_TO_VAL(GPIOPCTL_R_PORTD, PMC6, 0x01);
+			SET_NIB_TO_VAL(GPIOPCTL_R_PORTD, PMC7, 0x01);
+		break;
+		
+		case UART4:
+			// set fields for gpiopctl
+			SET_NIB_TO_VAL(GPIOPCTL_R_PORTC, PMC4, 0x01);
+			SET_NIB_TO_VAL(GPIOPCTL_R_PORTC, PMC5, 0x01);
+		break;
+		
+		case UART5:
+			// set fields for gpiopctl
+			SET_NIB_TO_VAL(GPIOPCTL_R_PORTE, PMC4, 0x01);
+			SET_NIB_TO_VAL(GPIOPCTL_R_PORTE, PMC5, 0x01);
+		break;
+		
+		case UART6:
+			// set fields for gpiopctl
+			SET_NIB_TO_VAL(GPIOPCTL_R_PORTD, PMC4, 0x01);
+			SET_NIB_TO_VAL(GPIOPCTL_R_PORTD, PMC5, 0x01);
+		break;
+		
+		case UART7:
+			SET_NIB_TO_VAL(GPIOPCTL_R_PORTE, PMC0, 0x01);
+			SET_NIB_TO_VAL(GPIOPCTL_R_PORTE, PMC1, 0x01);
+		break;
+		
+		case SSI:
+		break;
+		case I2C:
+		break;
+		case CAN:
+		break;
+	}
+	
+out:
+	return res;
+}
+
 
 // gpio_pin_analog_mode_select
 
