@@ -91,6 +91,18 @@ enum GPIOPortMuxControl
 	PMC7
 };
 
+enum NibbleIndex
+{
+	NIB0,
+	NIB1,
+	NIB2,
+	NIB3,
+	NIB4,
+	NIB5,
+	NIB6,
+	NIB7
+};
+
 #define NULL ((void*)0)
 
 #endif

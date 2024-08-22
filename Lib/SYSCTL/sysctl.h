@@ -29,6 +29,6 @@ enum SYSCTL_GPIOPortBusBit
 
 sint8_t SYSCTL_gpio_port_clk_config(uint8_t _port_index, uint8_t _config);
 sint8_t SYSCTL_gpio_port_bus_config(uint8_t _port_index, uint8_t _config);
-sint8_t SYSCTL_uart_config(uint8_t _uart_module, uint8_t _config);
+sint8_t SYSCTL_uart_clk_config(uint8_t _uart_module, uint8_t _config);
 
 #endif

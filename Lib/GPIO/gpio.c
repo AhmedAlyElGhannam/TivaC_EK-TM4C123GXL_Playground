@@ -677,7 +677,7 @@ static void GPIO_pin_assign_default_configs(struct GPIO_pin* _pin)
 	_pin->interrupt_config->mask_state = MASKED;
 }
 
-sint8_t GPIO_pin_pad_config(struct GPIO_pin* _pin)
+static sint8_t GPIO_pin_pad_config(struct GPIO_pin* _pin)
 {
 	sint8_t res = ALL_OK;
 	

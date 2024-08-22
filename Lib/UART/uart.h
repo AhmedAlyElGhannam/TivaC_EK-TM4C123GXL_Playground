@@ -47,6 +47,56 @@ enum UART_BaudRate
 	BAUD_RATE_115200,
 };
 
+// field bit location in UARTCTL register
+enum UART_ControlOptions
+{
+	UARTEN = 0,
+	SIREN = 1,
+	SIRLP = 2,
+	SMART = 3,
+	EOT = 4,
+	HSE = 5,
+	LBE = 7,
+	TXE = 8,
+	RXE = 9,
+	RTS = 11,
+	RTSEN = 14,
+	CTSEN = 15
+};
+
+// start bit position for every field in UARTLCTL register
+enum UART_LineControl
+{
+	SPS = 7,
+	WLEN = 5,
+	FEN = 4,
+	STP2 = 3,
+	EPS = 2,
+	PEN = 1,
+	BRK = 0
+	
+};
+
+enum UART_WordLength
+{
+	WLEN_5BIT = 0x00,
+	WLEN_6BIT = 0x01,
+	WLEN_7BIT = 0x02,
+	WLEN_8BIT = 0x03
+};
+
+enum UART_DataParity
+{
+	EVEN_PARITY,
+	ODD_PARITY
+};
+
+enum UART_NumberOfStopBits
+{
+	ONE_BIT,
+	TWO_BITS
+};
+
 struct UART_line_control
 {
 	uint8_t SPS		: 1; // Stick Parity Select
@@ -57,6 +107,8 @@ struct UART_line_control
 	uint8_t PEN 	: 1; // Parity Enable
 	uint8_t BRK 	: 1; // UART Send Break
 };
+
+
 
 struct UART_interrupt_config
 {
@@ -95,6 +147,9 @@ struct UART_module
 	uint8_t module_port_index  	: 4;
 };
 
+
+
+void UART_ctrl_UARTEN_config(struct UART_module* _uart_module, uint8_t _config);
 
 // uart_init
 void UART_init();

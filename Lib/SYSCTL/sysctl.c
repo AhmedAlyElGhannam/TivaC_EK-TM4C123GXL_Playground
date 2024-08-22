@@ -30,6 +30,8 @@ out:
     return res;
 }
 
+// this function should only be accessible IF port bus is AHB
+#ifdef (GPIO_PORT_BUS == AHB_BUS)
 sint8_t SYSCTL_gpio_port_bus_config(uint8_t _port_index, uint8_t _config)
 {
     sint8_t res = ALL_OK;
@@ -57,8 +59,9 @@ sint8_t SYSCTL_gpio_port_bus_config(uint8_t _port_index, uint8_t _config)
 out:
     return res;
 }
+#endif
 
-sint8_t SYSCTL_uart_config(uint8_t _uart_module, uint8_t _config)
+sint8_t SYSCTL_uart_clk_config(uint8_t _uart_module, uint8_t _config)
 {
 	sint8_t res = ALL_OK;
 
@@ -86,4 +89,3 @@ out:
     return res;
 }
 
-RCC_R
