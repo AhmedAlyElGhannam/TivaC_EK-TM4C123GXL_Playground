@@ -1,6 +1,6 @@
 # TivaC_Playground
 
-This repository contains my special drivers written for EK-TM4C123GXL LaunchPad (based on TM4C123GH6PM MCU) + Some projects cuz why not! XDD \
+This repository contains drivers/experimental code written for EK-TM4C123GXL LaunchPad (based on TM4C123GH6PM MCU) + Some projects cuz why not! XDD \
 **NOTE:** I know it is best to design mcu drivers with macros to save space as much as possible. However, since I want to both practise using M4 mcus and flex my C language skills I will take some liberties on how I write it.
 
 ## Bro Tip: Symbolic Link Between Files in a CCS Project
